@@ -1,11 +1,6 @@
 import { Solar } from "lunar-javascript";
 
-function toTraditional(text: string) {
-  return text
-    .replace(/龙/g, "龍")
-    .replace(/鸡/g, "雞")
-    .replace(/猪/g, "豬");
-}
+import { toTaiwanTraditional } from "./traditional";
 
 export type BirthChart = {
   solarDate: string;
@@ -64,8 +59,8 @@ export function buildBirthChart(
   const currentYearPillar = currentLunar.getYearInGanZhi();
 
   const zodiacList = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"];
-  const birthZodiac = toTraditional(lunar.getYearShengXiao());
-  const currentZodiac = toTraditional(currentLunar.getYearShengXiao());
+  const birthZodiac = toTaiwanTraditional(lunar.getYearShengXiao());
+  const currentZodiac = toTaiwanTraditional(currentLunar.getYearShengXiao());
   const birthZodiacIndex = zodiacList.indexOf(birthZodiac);
   const currentZodiacIndex = zodiacList.indexOf(currentZodiac);
 
@@ -93,18 +88,18 @@ export function buildBirthChart(
 
   return {
     solarDate: `${year} 年 ${month} 月 ${day} 日`,
-    lunarDate: toTraditional(lunar.toString()),
+    lunarDate: toTaiwanTraditional(lunar.toString()),
     zodiac: birthZodiac,
-    yearPillar: toTraditional(eightChar.getYear()),
-    monthPillar: toTraditional(eightChar.getMonth()),
-    dayPillar: toTraditional(eightChar.getDay()),
-    timePillar: branch ? toTraditional(eightChar.getTime()) : "（未提供時辰）",
-    dayMaster: toTraditional(eightChar.getDayGan()),
-    nayin: toTraditional(eightChar.getDayNaYin()),
-    chong: toTraditional(lunar.getDayChongDesc()),
-    sha: toTraditional(lunar.getDaySha()),
+    yearPillar: toTaiwanTraditional(eightChar.getYear()),
+    monthPillar: toTaiwanTraditional(eightChar.getMonth()),
+    dayPillar: toTaiwanTraditional(eightChar.getDay()),
+    timePillar: branch ? toTaiwanTraditional(eightChar.getTime()) : "（未提供時辰）",
+    dayMaster: toTaiwanTraditional(eightChar.getDayGan()),
+    nayin: toTaiwanTraditional(eightChar.getDayNaYin()),
+    chong: toTaiwanTraditional(lunar.getDayChongDesc()),
+    sha: toTaiwanTraditional(lunar.getDaySha()),
     currentYear: `${currentYear} 年`,
-    currentYearPillar: toTraditional(currentYearPillar),
+    currentYearPillar: toTaiwanTraditional(currentYearPillar),
     taiSuiNote,
   };
 }

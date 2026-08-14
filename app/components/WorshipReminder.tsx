@@ -4,6 +4,7 @@ import { Bell, CheckCircle2, Trash2 } from "lucide-react";
 import { Solar } from "lunar-javascript";
 import { useCallback, useState } from "react";
 import { deities } from "../data/deities";
+import { formatLunarDate } from "../lib/traditional";
 import { generateId, storage, type WorshipReminder } from "../lib/storage";
 
 const reminderTemplates = [
@@ -48,7 +49,7 @@ function formatSolarDate(date: Date) {
 function getLunarNote(dateStr: string) {
   if (!dateStr) return "";
   const [y, m, d] = dateStr.split("-").map(Number);
-  return Solar.fromYmd(y, m, d).getLunar().toString();
+  return formatLunarDate(Solar.fromYmd(y, m, d).getLunar().toString());
 }
 
 export default function WorshipReminder() {
@@ -227,7 +228,7 @@ export default function WorshipReminder() {
               <div className="reminder-main">
                 <strong>{r.title}</strong>
                 <span>
-                  {r.solarDate} · {r.lunarNote.replace(/二〇\d+年/, "")}
+                  {r.solarDate} · {formatLunarDate(r.lunarNote, true)}
                 </span>
                 <small>
                   {r.deity}｜供品：{r.offering}

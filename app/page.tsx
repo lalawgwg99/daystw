@@ -10,11 +10,12 @@ import {
 import { Solar } from "lunar-javascript";
 import { useMemo, useState } from "react";
 import ServicePanel from "./components/ServicePanel";
+import { formatLunarDate, toTaiwanTraditional } from "./lib/traditional";
 
 const purposeOptions = [
   { label: "搬家入宅", value: "入宅", keywords: ["入宅", "移徙"] },
-  { label: "結婚訂婚", value: "嫁娶", keywords: ["嫁娶", "订盟", "纳采"] },
-  { label: "開市開工", value: "开市", keywords: ["开市", "开业", "交易"] },
+  { label: "結婚訂婚", value: "嫁娶", keywords: ["嫁娶", "订盟", "訂盟", "纳采", "納采"] },
+  { label: "開市開工", value: "开市", keywords: ["开市", "開市", "开业", "開業", "交易"] },
   { label: "祭祀祈福", value: "祭祀", keywords: ["祭祀", "祈福"] },
 ];
 
@@ -26,17 +27,17 @@ const festivals = [
     lunar: "農曆七月十五",
     solar: "2026-08-27",
     intent: "普度、慎終追遠、孝親報恩",
-    tags: ["普度", "供品清單", "戶外祭拜", "禁忌提醒"],
+    tags: ["普度", "供品", "戶外祭拜", "禁忌"],
     time: "下午 2 點至 5 點前",
-    offering: "三牲、水果、乾糧、米酒、紙錢",
+    offering: "三牲、水果、乾糧、米酒、金紙",
     caution: "避免香蕉、李子、梨子、鳳梨；祭拜時不呼叫本名",
   },
   {
     name: "清明節",
     lunar: "節氣清明",
     solar: "2026-04-05",
-    intent: "掃墓、祭祖、家族記憶整理",
-    tags: ["掃墓", "祭祖", "交通需求", "用品包"],
+    intent: "掃墓、祭祖",
+    tags: ["掃墓", "祭祖", "供品", "注意事項"],
     time: "上午為主，依家族習慣調整",
     offering: "鮮花、素果、茶酒、祖先生前喜愛食物",
     caution: "墓園用火與金紙須依地方規範",
@@ -45,20 +46,13 @@ const festivals = [
     name: "中秋節",
     lunar: "農曆八月十五",
     solar: "2026-09-25",
-    intent: "團圓、拜月、送禮",
-    tags: ["拜月", "送禮", "月餅", "家庭"],
+    intent: "團圓、拜月",
+    tags: ["拜月", "供品", "月餅", "家庭"],
     time: "傍晚至月出後",
     offering: "月餅、柚子、圓形水果、清茶",
-    caution: "內容可搭配月餅、柚子等團圓食品，依家庭習慣準備",
+    caution: "依家庭習慣準備團圓食品即可",
   },
 ];
-
-function toTraditionalZodiac(text: string) {
-  return text
-    .replace("龙", "龍")
-    .replace("鸡", "雞")
-    .replace("猪", "豬");
-}
 
 function formatSolarDate(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -76,11 +70,13 @@ function buildMonthResults(year: number, month: number, purpose: string, avoidZo
     const day = index + 1;
     const date = new Date(year, month - 1, day);
     const lunar = getLunarForDate(year, month, day);
-    const yi = lunar.getDayYi();
-    const ji = lunar.getDayJi();
-    const clash = toTraditionalZodiac(lunar.getDayChongDesc());
+    const yi = lunar.getDayYi().map((item: string) => toTaiwanTraditional(item));
+    const ji = lunar.getDayJi().map((item: string) => toTaiwanTraditional(item));
+    const clash = toTaiwanTraditional(lunar.getDayChongDesc());
     const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-    const purposeMatched = purposeConfig.keywords.some((keyword) => yi.includes(keyword));
+    const purposeMatched = purposeConfig.keywords.some((keyword) =>
+      lunar.getDayYi().some((y: string) => y.includes(keyword) || toTaiwanTraditional(y).includes(keyword)),
+    );
     const clashBlocked = avoidZodiac !== "不限" && clash.includes(avoidZodiac);
     const weekendBlocked = weekendOnly && !isWeekend;
     const score = (purposeMatched ? 58 : 18) + (isWeekend ? 18 : 4) + (!clashBlocked ? 18 : -24) + (ji.length <= 5 ? 6 : 0);
@@ -89,14 +85,14 @@ function buildMonthResults(year: number, month: number, purpose: string, avoidZo
       date,
       day,
       iso: formatSolarDate(date),
-      lunarText: lunar.toString().replace("二〇二六年", ""),
+      lunarText: formatLunarDate(lunar.toString(), true),
       yi: yi.slice(0, 6),
       ji: ji.slice(0, 4),
       clash,
-      sha: lunar.getDaySha(),
-      tai: lunar.getDayPositionTai(),
-      peng: `${lunar.getPengZuGan()}；${lunar.getPengZuZhi()}`,
-      tianShen: `${lunar.getDayTianShen()}・${lunar.getDayTianShenType()}`,
+      sha: toTaiwanTraditional(lunar.getDaySha()),
+      tai: toTaiwanTraditional(lunar.getDayPositionTai()),
+      peng: `${toTaiwanTraditional(lunar.getPengZuGan())}；${toTaiwanTraditional(lunar.getPengZuZhi())}`,
+      tianShen: `${toTaiwanTraditional(lunar.getDayTianShen())}・${toTaiwanTraditional(lunar.getDayTianShenType())}`,
       isWeekend,
       purposeMatched,
       clashBlocked,
@@ -112,11 +108,13 @@ function buildMonthResults(year: number, month: number, purpose: string, avoidZo
 export default function Home() {
   const today = new Date();
   const todayLunar = getLunarForDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
-  const [year, setYear] = useState(2026);
-  const [month, setMonth] = useState(10);
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth() + 1);
   const [purpose, setPurpose] = useState("入宅");
-  const [avoidZodiac, setAvoidZodiac] = useState("兔");
-  const [weekendOnly, setWeekendOnly] = useState(true);
+  const [avoidZodiac, setAvoidZodiac] = useState("不限");
+  const [weekendOnly, setWeekendOnly] = useState(false);
+
+  const todayYi = todayLunar.getDayYi().slice(0, 5).map((item: string) => toTaiwanTraditional(item));
 
   const results = useMemo(
     () => buildMonthResults(year, month, purpose, avoidZodiac, weekendOnly),
@@ -124,108 +122,107 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-[#f7f3ea] text-[#201b16]">
-      <section className="border-b border-[#ded2bf] bg-[#fffaf1]">
-        <div className="mx-auto grid max-w-7xl gap-6 px-5 py-5 lg:grid-cols-[1fr_360px] lg:px-8">
-          <div className="space-y-5">
-            <nav className="flex flex-wrap items-center gap-2 text-sm text-[#6e6257]">
-              <span className="brand-mark">吉</span>
-              <a href="#finder">吉日篩選</a>
-              <a href="#calendar">黃曆查詢</a>
-              <a href="#festival">節日專區</a>
-              <a href="#services">民俗指南</a>
-            </nav>
-
-            <div className="product-heading">
-              <h1>吉日、節氣、拜拜指南，一次查清楚。</h1>
-            </div>
+    <main className="page-root">
+      <header className="site-header">
+        <div className="site-header-inner">
+          <div className="site-brand">
+            <span className="brand-mark">吉</span>
+            <span className="brand-name">吉日通</span>
           </div>
-
-          <aside className="today-panel" id="calendar">
-            <div className="panel-title">
-              <CalendarDays size={20} />
-              <span>今日黃曆</span>
-            </div>
-            <strong>{formatSolarDate(today)}</strong>
-            <p>{todayLunar.toString()}</p>
-            <div className="tag-row">
-              {todayLunar.getDayYi().slice(0, 5).map((item: string) => (
-                <span className="good-tag" key={item}>{item}</span>
-              ))}
-            </div>
-            <dl>
-              <div><dt>沖煞</dt><dd>{toTraditionalZodiac(todayLunar.getDayChongDesc())} 煞{todayLunar.getDaySha()}</dd></div>
-              <div><dt>胎神</dt><dd>{todayLunar.getDayPositionTai()}</dd></div>
-              <div><dt>彭祖</dt><dd>{todayLunar.getPengZuGan()}</dd></div>
-            </dl>
-          </aside>
+          <nav className="site-nav">
+            <a href="#finder">吉日篩選</a>
+            <a href="#calendar">今日黃曆</a>
+            <a href="#festival">節日</a>
+            <a href="#services">民俗指南</a>
+          </nav>
         </div>
-      </section>
+      </header>
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-5 py-8 lg:grid-cols-[420px_1fr] lg:px-8" id="finder">
-        <div className="finder-panel">
-          <div className="panel-title">
-            <Filter size={20} />
-            <span>吉日篩選器</span>
-          </div>
-          <label>
-            年份
-            <input value={year} min={2026} max={2035} type="number" onChange={(event) => setYear(Number(event.target.value))} />
-          </label>
-          <label>
-            月份
-            <input value={month} min={1} max={12} type="number" onChange={(event) => setMonth(Number(event.target.value))} />
-          </label>
-          <label>
-            用途
-            <select value={purpose} onChange={(event) => setPurpose(event.target.value)}>
-              {purposeOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-            </select>
-          </label>
-          <label>
-            避開生肖
-            <select value={avoidZodiac} onChange={(event) => setAvoidZodiac(event.target.value)}>
-              <option>不限</option>
-              {zodiacOptions.map((item) => <option key={item}>{item}</option>)}
-            </select>
-          </label>
-          <label className="toggle-line">
-            <input checked={weekendOnly} type="checkbox" onChange={(event) => setWeekendOnly(event.target.checked)} />
-            只看週末
-          </label>
-        </div>
-
-        <div className="results-grid">
-          {results.length === 0 ? (
-            <div className="empty-state">這組條件沒有找到合適日期，建議放寬週末或生肖限制。</div>
-          ) : results.map((item) => (
-            <article className="date-card" key={item.iso}>
-              <div className="date-topline">
-                <span>{item.iso}</span>
-                <strong>{item.isWeekend ? "週末" : "平日"}</strong>
+      <section className="mx-auto max-w-7xl px-4 py-4 lg:px-6" id="finder">
+        <div className="finder-layout">
+          <aside className="finder-sidebar">
+            <div className="today-panel compact" id="calendar">
+              <div className="panel-title">
+                <CalendarDays size={18} />
+                <span>今日黃曆</span>
               </div>
-              <h2>{month} 月 {item.day} 日</h2>
-              <p>{item.lunarText}</p>
-              <div className="tag-row">
-                {item.yi.map((tag: string) => <span className="good-tag" key={tag}>{tag}</span>)}
+              <strong>{formatSolarDate(today)}</strong>
+              <p>{formatLunarDate(todayLunar.toString())}</p>
+              <div className="tag-row compact">
+                {todayYi.map((item: string) => (
+                  <span className="good-tag" key={item}>{item}</span>
+                ))}
               </div>
-              <dl className="detail-list">
-                <div><dt>沖煞</dt><dd>{item.clash} 煞{item.sha}</dd></div>
-                <div><dt>天神</dt><dd>{item.tianShen}</dd></div>
-                <div><dt>胎神</dt><dd>{item.tai}</dd></div>
-                <div><dt>彭祖</dt><dd>{item.peng}</dd></div>
+              <dl className="compact-dl">
+                <div><dt>沖煞</dt><dd>{toTaiwanTraditional(todayLunar.getDayChongDesc())} 煞{toTaiwanTraditional(todayLunar.getDaySha())}</dd></div>
+                <div><dt>胎神</dt><dd>{toTaiwanTraditional(todayLunar.getDayPositionTai())}</dd></div>
               </dl>
-            </article>
-          ))}
+            </div>
+
+            <div className="finder-panel">
+              <div className="panel-title">
+                <Filter size={18} />
+                <span>吉日篩選</span>
+              </div>
+              <label>
+                年份
+                <input value={year} min={2024} max={2035} type="number" onChange={(event) => setYear(Number(event.target.value))} />
+              </label>
+              <label>
+                月份
+                <input value={month} min={1} max={12} type="number" onChange={(event) => setMonth(Number(event.target.value))} />
+              </label>
+              <label>
+                用途
+                <select value={purpose} onChange={(event) => setPurpose(event.target.value)}>
+                  {purposeOptions.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
+                </select>
+              </label>
+              <label>
+                避開生肖
+                <select value={avoidZodiac} onChange={(event) => setAvoidZodiac(event.target.value)}>
+                  <option>不限</option>
+                  {zodiacOptions.map((item) => <option key={item}>{item}</option>)}
+                </select>
+              </label>
+              <label className="toggle-line">
+                <input checked={weekendOnly} type="checkbox" onChange={(event) => setWeekendOnly(event.target.checked)} />
+                只看週末
+              </label>
+            </div>
+          </aside>
+
+          <div className="results-grid">
+            {results.length === 0 ? (
+              <div className="empty-state">這組條件沒有合適日期，建議放寬週末或生肖限制。</div>
+            ) : results.map((item) => (
+              <article className="date-card compact" key={item.iso}>
+                <div className="date-topline">
+                  <span>{item.iso}</span>
+                  <strong>{item.isWeekend ? "週末" : "平日"}</strong>
+                </div>
+                <h2>{month}月{item.day}日</h2>
+                <p>{item.lunarText}</p>
+                <div className="tag-row compact">
+                  {item.yi.map((tag: string) => <span className="good-tag" key={tag}>{tag}</span>)}
+                </div>
+                <dl className="detail-list compact-dl">
+                  <div><dt>沖煞</dt><dd>{item.clash} 煞{item.sha}</dd></div>
+                  <div><dt>胎神</dt><dd>{item.tai}</dd></div>
+                  <div><dt>彭祖</dt><dd>{item.peng}</dd></div>
+                </dl>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="band" id="festival">
-        <div className="mx-auto max-w-7xl px-5 py-8 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-5 lg:px-6">
           <h2 className="section-title">節日專區</h2>
           <div className="festival-grid">
             {festivals.map((festival) => (
-              <article className="festival-card" key={festival.name}>
+              <article className="festival-card compact" key={festival.name}>
                 <div className="date-topline">
                   <span>{festival.solar}</span>
                   <strong>{festival.lunar}</strong>
@@ -233,12 +230,9 @@ export default function Home() {
                 <h3>{festival.name}</h3>
                 <p>{festival.intent}</p>
                 <div className="mini-list">
-                  <span><Clock3 size={16} />{festival.time}</span>
-                  <span><CheckCircle2 size={16} />{festival.offering}</span>
-                  <span><Tags size={16} />{festival.caution}</span>
-                </div>
-                <div className="tag-row">
-                  {festival.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                  <span><Clock3 size={15} />{festival.time}</span>
+                  <span><CheckCircle2 size={15} />{festival.offering}</span>
+                  <span><Tags size={15} />{festival.caution}</span>
                 </div>
               </article>
             ))}
@@ -246,7 +240,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-8 lg:px-8" id="services">
+      <section className="mx-auto max-w-7xl px-4 py-5 lg:px-6" id="services">
         <ServicePanel />
       </section>
     </main>

@@ -24,7 +24,114 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+.page-root {
+  min-height: 100vh;
+  background: #f7f3ea;
+  color: #201b16;
+}
+
+.site-header {
+  background: #fffaf1;
+  border-bottom: 1px solid #ded2bf;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.site-header-inner {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 10px 16px;
+}
+
+.site-brand {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  gap: 4px;
+}
+
+.finder-layout {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 300px 1fr;
+}
+
+.finder-sidebar {
+  display: grid;
+  gap: 12px;
+}
+
+.finder-sidebar .finder-panel {
+  position: static;
+}
+
+.compact-dl {
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.compact-dl div {
+  padding-top: 8px;
+}
+
+.today-panel.compact > strong {
+  font-size: 22px;
+}
+
+.today-panel.compact,
+.finder-panel,
+.date-card.compact,
+.festival-card.compact {
+  box-shadow: 0 8px 24px rgba(66, 39, 17, 0.06);
+  padding: 14px;
+}
+
+.date-card.compact,
+.festival-card.compact {
+  min-height: auto;
+}
+
+.date-card.compact h2 {
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+
+.date-card.compact p,
+.festival-card.compact p {
+  font-size: 14px;
+}
+
+.festival-card.compact h3 {
+  font-size: 22px;
+}
+
+.tag-row.compact {
+  margin-top: 10px;
+}
+
+.tag-row.compact span,
+.tag-row.compact .good-tag {
+  font-size: 12px;
+  padding: 4px 8px;
 }
 
 a {
@@ -67,11 +174,11 @@ select {
 }
 
 .section-title {
-  font-size: clamp(24px, 3vw, 32px);
+  font-size: 20px;
   font-weight: 900;
   letter-spacing: 0;
   line-height: 1.1;
-  margin: 0 0 18px;
+  margin: 0 0 14px;
 }
 
 .product-heading h1 {
@@ -386,6 +493,15 @@ select {
 }
 
 @media (max-width: 760px) {
+  .finder-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .product-heading h1 {
     font-size: 42px;
   }

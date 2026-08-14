@@ -9,10 +9,12 @@ export default function FestivalSection() {
   const festivals = useMemo(() => getUpcomingFestivals(year), [year]);
 
   return (
-    <section className="band" id="festival">
-      <div className="mx-auto max-w-7xl px-4 py-5 lg:px-6">
-        <h2 className="section-title">節日專區</h2>
-        <p className="service-desc">依農曆自動換算 {year} 年節慶日期，含拜拜時間與供品建議。</p>
+    <section className="section-block band" id="festival">
+      <div className="section-inner">
+        <header className="section-head-block">
+          <h2 className="section-title">節日專區</h2>
+          <p className="section-desc">依農曆自動換算 {year} 年節慶，含拜拜時間與供品建議。</p>
+        </header>
         <div className="festival-grid">
           {festivals.map((festival) => (
             <article className="festival-card compact" key={festival.id}>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import { getAllZodiacFortunes, zodiacList } from "../data/zodiac-fortune";
 import { formatSolarDate } from "../lib/finder";
@@ -15,16 +14,9 @@ export default function ZodiacFortune() {
   const active = fortunes.find((f) => f.zodiac === selected) ?? fortunes[0];
 
   return (
-    <div className="zodiac-fortune">
-      <div className="service-module-head">
-        <Sparkles size={20} />
-        <div>
-          <strong>今日生肖運勢</strong>
-          <p>{today} · 離線決定式，同一天結果一致</p>
-        </div>
-      </div>
-
-      <div className="zodiac-chips">
+    <div className="zodiac-panel">
+      <p className="section-desc subtle">{today} · 離線決定式</p>
+      <div className="zodiac-chips scroll-x">
         {zodiacList.map((zodiac) => (
           <button
             className={`purpose-chip ${selected === zodiac ? "active" : ""}`}

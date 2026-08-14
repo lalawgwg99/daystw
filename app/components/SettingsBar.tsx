@@ -59,11 +59,13 @@ export default function SettingsBar({ onChange }: Props) {
   );
 }
 
-export function GlossaryPanel() {
+export function GlossaryPanel({ embedded = false }: { embedded?: boolean }) {
   return (
-    <div className="glossary-panel" id="glossary">
-      <h2 className="section-title">術語小百科</h2>
-      <p className="service-desc">黃曆常見名詞白話解釋，長輩也能一眼看懂。</p>
+    <div className="glossary-panel" id={embedded ? undefined : "glossary"}>
+      <header className="section-head-block">
+        <h2 className="section-title">術語小百科</h2>
+        <p className="section-desc">黃曆常見名詞白話解釋，長輩也能一眼看懂。</p>
+      </header>
       <div className="glossary-grid">
         {termEntries.map((entry) => (
           <article className="glossary-card" key={entry.term}>

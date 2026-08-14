@@ -34,6 +34,7 @@ export default function DeitySearch() {
   const [category, setCategory] = useState<DeityCategory | "">("");
   const [region, setRegion] = useState<TaiwanRegion | "">("");
   const [viewMode, setViewMode] = useState<"need" | "temple">("need");
+  const [showAll, setShowAll] = useState(false);
 
   const results = useMemo(
     () => searchDeities(query, category || undefined, region || undefined),
@@ -44,6 +45,11 @@ export default function DeitySearch() {
     () => searchTemples(query, region || undefined),
     [query, region],
   );
+
+  const hasFilter = Boolean(query.trim() || category || region);
+  const displayLimit = hasFilter || showAll ? 999 : 6;
+  const visibleResults = results.slice(0, displayLimit);
+  const visibleTemples = templeResults.slice(0, displayLimit);
 
   return (
     <div className="service-module">
@@ -118,8 +124,12 @@ export default function DeitySearch() {
         results.length === 0 ? (
           <div className="empty-state">找不到符合條件的神明，請換個關鍵字或地區試試。</div>
         ) : (
-          <div className="deity-results">
-            {results.map((item) => {
+          <>
+            {!hasFilter && (
+              <p className="results-hint">顯示常用需求，搜尋或篩選可查看全部 {results.length} 筆。</p>
+            )}
+            <div className="deity-results">
+            {visibleResults.map((item) => {
               const relatedTemples = resolveTemplesForDeity(item).filter(
                 (t) => !region || t.region === region,
               );
@@ -175,13 +185,25 @@ export default function DeitySearch() {
                 </article>
               );
             })}
-          </div>
+            </div>
+            {!hasFilter && !showAll && results.length > 6 && (
+              <div className="form-actions center">
+                <button className="btn-secondary" type="button" onClick={() => setShowAll(true)}>
+                  查看全部 {results.length} 筆需求
+                </button>
+              </div>
+            )}
+          </>
         )
       ) : templeResults.length === 0 ? (
         <div className="empty-state">找不到符合條件的廟宇，請換個關鍵字或地區試試。</div>
       ) : (
-        <div className="deity-results">
-          {templeResults.map((t) => (
+        <>
+          {!hasFilter && (
+            <p className="results-hint">顯示部分廟宇，搜尋或選地區可查看全部 {templeResults.length} 座。</p>
+          )}
+          <div className="deity-results">
+          {visibleTemples.map((t) => (
             <article className="deity-result-card temple-card" key={t.id}>
               <div className="date-topline">
                 <span>{regionLabels[t.region]}</span>
@@ -204,7 +226,15 @@ export default function DeitySearch() {
               {t.note && <p className="temple-note block">{t.note}</p>}
             </article>
           ))}
-        </div>
+          </div>
+          {!hasFilter && !showAll && templeResults.length > 6 && (
+            <div className="form-actions center">
+              <button className="btn-secondary" type="button" onClick={() => setShowAll(true)}>
+                查看全部 {templeResults.length} 座廟宇
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       <details className="data-preview">

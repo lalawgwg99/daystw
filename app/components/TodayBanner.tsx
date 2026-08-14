@@ -12,7 +12,7 @@ type Props = {
 
 export default function TodayBanner({ initialDate }: Props) {
   const [currentDate, setCurrentDate] = useState(initialDate ?? new Date());
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const detail = useMemo(() => {
     return getDayDetail(
@@ -24,76 +24,77 @@ export default function TodayBanner({ initialDate }: Props) {
 
   const solarDate = formatSolarDate(currentDate);
   const isToday = solarDate === formatSolarDate(new Date());
-  const label = isToday ? "今日" : solarDate;
+  const weekday = ["日", "一", "二", "三", "四", "五", "六"][currentDate.getDay()];
 
   function shift(delta: number) {
     setCurrentDate(shiftDate(currentDate, delta));
   }
 
   return (
-    <div className="today-banner" id="calendar">
-      <div className="today-banner-nav">
-        <button aria-label="前一天" className="icon-btn" type="button" onClick={() => shift(-1)}>
-          <ChevronLeft size={18} />
+    <div className="today-hero" id="calendar">
+      <div className="today-hero-nav">
+        <button aria-label="前一天" className="icon-btn ghost" type="button" onClick={() => shift(-1)}>
+          <ChevronLeft size={20} />
         </button>
-        <button
-          aria-expanded={open}
-          className="today-banner-main"
-          type="button"
-          onClick={() => setOpen(!open)}
-        >
-          <CalendarDays size={18} />
-          <div className="today-banner-text">
-            <strong>
-              {label} {solarDate}
-            </strong>
-            <span>
-              {detail.lunarText}
-              {detail.yi.length > 0 && ` · 宜 ${detail.yi.slice(0, 4).join("、")}`}
-            </span>
+        <div className="today-hero-center">
+          <span className="today-hero-label">{isToday ? "今日黃曆" : "黃曆"}</span>
+          <div className="today-hero-date">
+            <strong>{solarDate}</strong>
+            <span>週{weekday}</span>
           </div>
-          <ChevronDown className={open ? "rotated" : ""} size={18} />
-        </button>
-        <button aria-label="後一天" className="icon-btn" type="button" onClick={() => shift(1)}>
-          <ChevronRight size={18} />
+          <p className="today-hero-lunar">{detail.lunarText}</p>
+        </div>
+        <button aria-label="後一天" className="icon-btn ghost" type="button" onClick={() => shift(1)}>
+          <ChevronRight size={20} />
         </button>
       </div>
 
+      {detail.holidayName && <p className="holiday-badge center">{detail.holidayName}</p>}
+
+      <div className="today-hero-yi">
+        {detail.yiExplained.slice(0, 6).map(({ term, plain }) => (
+          <TermTooltip key={term} plain={plain} term={term}>
+            <span className="good-tag">{term}</span>
+          </TermTooltip>
+        ))}
+      </div>
+
+      <button
+        aria-expanded={open}
+        className="today-hero-toggle"
+        type="button"
+        onClick={() => setOpen(!open)}
+      >
+        <CalendarDays size={16} />
+        {open ? "收合詳情" : "查看沖煞、胎神"}
+        <ChevronDown className={open ? "rotated" : ""} size={16} />
+      </button>
+
       {open && (
-        <div className="today-banner-detail">
-          {detail.holidayName && (
-            <p className="holiday-badge">{detail.holidayName}</p>
-          )}
-          <div className="tag-row compact">
-            {detail.yiExplained.map(({ term, plain }) => (
-              <TermTooltip key={term} plain={plain} term={term}>
-                <span className="good-tag">{term}</span>
-              </TermTooltip>
-            ))}
+        <dl className="compact-dl today-hero-detail">
+          <div>
+            <dt>沖煞</dt>
+            <dd>
+              {detail.clash} 煞{detail.sha}
+            </dd>
           </div>
-          <dl className="compact-dl">
+          <div>
+            <dt>胎神</dt>
+            <dd>{detail.tai}</dd>
+          </div>
+          <div>
+            <dt>彭祖</dt>
+            <dd>
+              {detail.pengGan}；{detail.pengZhi}
+            </dd>
+          </div>
+          {detail.badReasons.length > 0 && (
             <div>
-              <dt>沖煞</dt>
-              <dd>
-                {detail.clash} 煞{detail.sha}
-              </dd>
+              <dt>凶日提示</dt>
+              <dd>{detail.badReasons.join("、")}</dd>
             </div>
-            <div>
-              <dt>胎神</dt>
-              <dd>{detail.tai}</dd>
-            </div>
-            <div>
-              <dt>彭祖</dt>
-              <dd>{detail.pengGan}；{detail.pengZhi}</dd>
-            </div>
-            {detail.badReasons.length > 0 && (
-              <div>
-                <dt>凶日提示</dt>
-                <dd>{detail.badReasons.join("、")}</dd>
-              </div>
-            )}
-          </dl>
-        </div>
+          )}
+        </dl>
       )}
     </div>
   );

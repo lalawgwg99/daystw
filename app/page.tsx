@@ -3,10 +3,13 @@
 import { useEffect, useState } from "react";
 import FestivalSection from "./components/FestivalSection";
 import FinderSection from "./components/FinderSection";
+import HeroStrip from "./components/HeroStrip";
 import MonthCalendar from "./components/MonthCalendar";
 import SavedDatesPanel from "./components/SavedDatesPanel";
+import SectionBlock from "./components/SectionBlock";
 import ServicePanel from "./components/ServicePanel";
-import SettingsBar, { applyStoredSettings, GlossaryPanel } from "./components/SettingsBar";
+import SiteHeader from "./components/SiteHeader";
+import { applyStoredSettings, GlossaryPanel } from "./components/SettingsBar";
 import TodayBanner from "./components/TodayBanner";
 import ZodiacFortune from "./components/ZodiacFortune";
 import { notifyDueReminders, registerServiceWorker } from "./lib/storage";
@@ -22,59 +25,51 @@ export default function Home() {
 
   return (
     <main className="page-root">
-      <header className="site-header">
-        <div className="site-header-inner">
-          <div className="site-brand">
-            <span className="brand-mark">吉</span>
-            <span className="brand-name">吉日通</span>
-          </div>
-          <nav className="site-nav">
-            <a href="#finder">找吉日</a>
-            <a href="#calendar">今日黃曆</a>
-            <a href="#month-calendar">月曆</a>
-            <a href="#festival">節日</a>
-            <a href="#saved">收藏</a>
-            <a href="#services">民俗指南</a>
-            <a href="#glossary">術語</a>
-          </nav>
+      <SiteHeader onSettingsChange={() => setSettingsVersion((v) => v + 1)} />
+
+      <div className="page-container">
+        <HeroStrip />
+
+        <div className="today-section">
+          <TodayBanner />
         </div>
-      </header>
 
-      <div className="mx-auto max-w-7xl px-4 lg:px-6">
-        <SettingsBar onChange={() => setSettingsVersion((v) => v + 1)} />
-        <TodayBanner />
-      </div>
+        <FinderSection settingsVersion={settingsVersion} />
 
-      <section className="mx-auto max-w-7xl px-4 py-4 lg:px-6" id="month-calendar">
-        <h2 className="section-title">月曆總覽</h2>
-        <p className="service-desc">農曆、節氣、國定假日、黃道與凶日標記，點選日期查看詳情。</p>
-        <MonthCalendar />
-      </section>
+        <SectionBlock
+          desc="點選日期查看宜忌、節氣與國定假日。"
+          id="month-calendar"
+          title="月曆總覽"
+        >
+          <MonthCalendar />
+        </SectionBlock>
 
-      <FinderSection settingsVersion={settingsVersion} />
+        <SectionBlock id="zodiac" title="今日生肖運勢">
+          <ZodiacFortune />
+        </SectionBlock>
 
-      <section className="mx-auto max-w-7xl px-4 py-4 lg:px-6" id="zodiac">
-        <ZodiacFortune />
-      </section>
+        <FestivalSection />
 
-      <FestivalSection />
+        <SectionBlock id="saved" title="收藏的吉日">
+          <SavedDatesPanel embedded />
+        </SectionBlock>
 
-      <div className="mx-auto max-w-7xl px-4 py-4 lg:px-6" id="saved">
-        <SavedDatesPanel />
-      </div>
+        <SectionBlock
+          desc="神明推薦、命理、點燈與拜拜提醒。"
+          id="services"
+          title="民俗指南"
+        >
+          <ServicePanel />
+        </SectionBlock>
 
-      <section className="mx-auto max-w-7xl px-4 py-5 lg:px-6" id="services">
-        <h2 className="section-title">民俗指南</h2>
-        <ServicePanel />
-      </section>
-
-      <div className="mx-auto max-w-7xl px-4 py-5 lg:px-6">
-        <GlossaryPanel />
+        <SectionBlock id="glossary" variant="band">
+          <GlossaryPanel embedded />
+        </SectionBlock>
       </div>
 
       <footer className="site-footer">
-        <div className="mx-auto max-w-7xl px-4 py-4 lg:px-6">
-          <p>SEO 專頁：</p>
+        <div className="section-inner">
+          <p className="footer-tagline">吉日通 — 為台灣家庭做的免費農民曆</p>
           <div className="seo-links">
             <a href="/2026/move-in">2026 搬家吉日</a>
             <a href="/2026/wedding">2026 結婚吉日</a>

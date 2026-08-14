@@ -4,7 +4,11 @@ import { Heart, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
 import { storage } from "../lib/storage";
 
-export default function SavedDatesPanel() {
+type Props = {
+  embedded?: boolean;
+};
+
+export default function SavedDatesPanel({ embedded = false }: Props) {
   const [saved, setSaved] = useState(() => storage.getSavedDates());
 
   const refresh = useCallback(() => {
@@ -13,17 +17,16 @@ export default function SavedDatesPanel() {
 
   if (saved.length === 0) {
     return (
-      <div>
-        <h2 className="section-title">收藏的吉日</h2>
-        <div className="empty-state compact">在推薦吉日卡片點「收藏」，就會顯示在這裡。</div>
+      <div className="empty-state compact">
+        在推薦吉日卡片點「收藏」，就會顯示在這裡。
       </div>
     );
   }
 
   return (
-    <div>
-      <h2 className="section-title">收藏的吉日</h2>
-      <div className="reminder-list">
+    <div className={embedded ? "" : ""}>
+      {!embedded && <h2 className="section-title">收藏的吉日</h2>}
+      <div className="reminder-list saved-panel">
         {saved.map((item) => (
           <div className="reminder-row" key={item.id}>
             <div className="reminder-main">

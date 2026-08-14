@@ -74,6 +74,11 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
       setYear(cell.date.getFullYear());
       setMonth(cell.date.getMonth() + 1);
     }
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      requestAnimationFrame(() => {
+        document.getElementById("calendar-detail-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   }
 
   function goToday() {
@@ -172,7 +177,7 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
           </div>
         </div>
 
-        <aside aria-labelledby="calendar-detail-title" className="calendar-detail-panel">
+        <aside aria-labelledby="calendar-detail-title" className="calendar-detail-panel" id="calendar-detail-panel">
           <div className="calendar-detail-head">
             <div>
               <p className="calendar-detail-eyebrow">選取日期</p>

@@ -3201,9 +3201,4 @@ html.elder-mode .festival-card h3 {
   .advanced-details summary {
     display: none;
   }
-
-  .advanced-details .today-info-grid {
-    border: none;
-    padding: 0;
-  }
 }

@@ -545,6 +545,18 @@ body {
   background: #efe5d4;
 }
 
+.purpose-chip.zodiac-chip {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.fortune-card h3 {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
 .form-row {
   display: grid;
   gap: 12px;
@@ -2723,7 +2735,7 @@ html.elder-mode .festival-card h3 {
   cursor: pointer;
   display: grid;
   gap: 2px;
-  min-height: 68px;
+  min-height: 92px;
   padding: 6px 3px;
   text-align: center;
 }
@@ -3246,12 +3258,181 @@ html.elder-mode .festival-card h3 {
 
 /* ── 節氣插畫 ── */
 
+.almanac-chip-icon.tone-food-yi { background: linear-gradient(145deg, #7cb87a, #558b2f); }
+.almanac-chip-icon.tone-food-ji { background: linear-gradient(145deg, #78909c, #546e7a); }
+
+.food-advice-note {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 6px 0 0;
+}
+
+/* ── 節氣插畫 motif ── */
+
+.jieqi-art .jq-spring,
+.jieqi-art .jq-rain,
+.jieqi-art .jq-thunder,
+.jieqi-art .jq-balance,
+.jieqi-art .jq-willow,
+.jieqi-art .jq-grain,
+.jieqi-art .jq-wheat,
+.jieqi-art .jq-sickle,
+.jieqi-art .jq-heat-wave,
+.jieqi-art .jq-leaf-fall,
+.jieqi-art .jq-fan,
+.jieqi-art .jq-dew-grass,
+.jieqi-art .jq-cold,
+.jieqi-art .jq-frost,
+.jieqi-art .jq-coat,
+.jieqi-art .jq-steam {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.jieqi-art .jq-spring-fill,
+.jieqi-art .jq-grain-head,
+.jieqi-art .jq-wheat-head,
+.jieqi-art .jq-lotus,
+.jieqi-art .jq-lotus-center,
+.jieqi-art .jq-longan,
+.jieqi-art .jq-dew-drop,
+.jieqi-art .jq-dumpling,
+.jieqi-art .jq-hearth,
+.jieqi-art .jq-flame,
+.jieqi-art .jq-ice,
+.jieqi-art .jq-snowflake,
+.jieqi-art .jq-bug,
+.jieqi-art .jq-default {
+  fill: currentColor;
+  stroke: none;
+}
+
+.jieqi-art .jq-sun-half,
+.jieqi-art .jq-sun-full,
+.jieqi-art .jq-heat-sun {
+  fill: currentColor;
+  opacity: 0.85;
+  stroke: none;
+}
+
+.jieqi-art .jq-sun-ray,
+.jieqi-art .jq-snow-star {
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+.jieqi-art .jq-dew-shine {
+  fill: #fff;
+}
+
+.jieqi-art-label {
+  fill: currentColor;
+  font-family: "PingFang TC", "Noto Sans TC", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* ── 月曆格：生肖 icon + 宜忌摘要 ── */
+
+.almanac-cell-head {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.almanac-cell-dot {
+  border-radius: 999px;
+  height: 6px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 6px;
+}
+
+.almanac-cell-dot.good {
+  background: #e6a817;
+}
+
+.almanac-cell-zodiac {
+  align-items: center;
+  color: #6e6257;
+  display: inline-flex;
+  font-size: 9px;
+  font-weight: 700;
+  gap: 3px;
+  justify-content: center;
+}
+
+.zodiac-icon {
+  color: #8b3a2f;
+  flex-shrink: 0;
+}
+
+.zodiac-icon-year {
+  margin: 0 4px;
+  vertical-align: -4px;
+}
+
+.almanac-year-pillar-text {
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.almanac-cell-yi,
+.almanac-cell-ji {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow: hidden;
+  padding: 0 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.almanac-cell-yi {
+  color: #ad1457;
+}
+
+.almanac-cell-ji {
+  color: #1565c0;
+}
+
+.almanac-cell.huangdao {
+  box-shadow: inset 0 0 0 1px rgba(230, 168, 23, 0.35);
+}
+
+.almanac-cell.bad-day:not(.selected) {
+  background: #faf8f5;
+}
+
+@media (max-width: 767px) {
+  .almanac-cell {
+    min-height: 82px;
+  }
+
+  .almanac-cell-yi,
+  .almanac-cell-ji {
+    font-size: 8px;
+  }
+
+  .jieqi-art {
+    height: 72px;
+    width: 72px;
+  }
+}
+
 .almanac-jieqi-visual {
   align-items: center;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  gap: 4px;
 }
 
 .jieqi-art {

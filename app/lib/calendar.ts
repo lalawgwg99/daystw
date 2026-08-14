@@ -4,6 +4,7 @@ import { getHoliday, isHoliday, isMakeupDay } from "../data/taiwan-holidays";
 import { explainTerm } from "../data/glossary";
 import { getBadDayInfo } from "./bad-days";
 import { explainClash, type ClashExplanation } from "./clash";
+import { getFoodAdvice, type FoodAdvice } from "./food-advice";
 import { formatSolarDate, getLunarForDate } from "./finder";
 import { formatLunarDate, toTaiwanTraditional } from "./traditional";
 
@@ -70,6 +71,7 @@ export type DayDetail = {
   isHuangDao: boolean;
   isBadDay: boolean;
   badReasons: string[];
+  foodAdvice: FoodAdvice;
 };
 
 function isoWeekNumber(date: Date): number {
@@ -167,6 +169,7 @@ export function getDayDetail(year: number, month: number, day: number): DayDetai
   const monthGanZhi = toTaiwanTraditional(lunar.getMonthInGanZhi());
   const dayGanZhi = toTaiwanTraditional(lunar.getDayInGanZhi());
   const jieQiPeriod = getJieQiPeriod(lunar, year, month, day);
+  const clashExplain = explainClash(year, month, day);
 
   return {
     iso,
@@ -185,7 +188,7 @@ export function getDayDetail(year: number, month: number, day: number): DayDetai
     jiExplained: explainItems(ji, "傳統黃曆記載的忌行之事"),
     clash: toTaiwanTraditional(lunar.getDayChongDesc()),
     sha: toTaiwanTraditional(lunar.getDaySha()),
-    clashExplain: explainClash(year, month, day),
+    clashExplain,
     tai: toTaiwanTraditional(lunar.getDayPositionTai()),
     pengGan: toTaiwanTraditional(lunar.getPengZuGan()),
     pengZhi: toTaiwanTraditional(lunar.getPengZuZhi()),
@@ -203,6 +206,7 @@ export function getDayDetail(year: number, month: number, day: number): DayDetai
     isHuangDao: isHuangDao(lunar),
     isBadDay: bad.isBad,
     badReasons: bad.reasons,
+    foodAdvice: getFoodAdvice(year, month, day, clashExplain),
   };
 }
 
@@ -244,7 +248,7 @@ export function buildMonthGrid(year: number, month: number): CalendarDay[] {
       isWeekend: date.getDay() === 0 || date.getDay() === 6,
       isHuangDao: isHuangDao(lunar),
       yiPreview: yi.slice(0, 2),
-      jiPreview: ji.slice(0, 1),
+      jiPreview: ji.slice(0, 2),
       jianChu: toTaiwanTraditional(lunar.getZhiXing()),
       clash: toTaiwanTraditional(lunar.getDayChongDesc()),
       clashZodiac: toTaiwanTraditional(lunar.getDayChongShengXiao()),

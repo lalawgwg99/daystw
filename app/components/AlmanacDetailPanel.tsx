@@ -3,7 +3,6 @@
 import { CalendarDays, Flame, Sparkles, Sun } from "lucide-react";
 import type { DayDetail } from "../lib/calendar";
 import { formatClashOneLine } from "../lib/clash";
-import { getJieQiBadge } from "../lib/jieqi-badges";
 import { AlmanacChipIcon } from "./AlmanacChipIcon";
 import AlmanacDecor from "./AlmanacDecor";
 import ClashExplain from "./ClashExplain";
@@ -34,7 +33,6 @@ function BranchPills({ branches }: { branches: string[] }) {
 
 export default function AlmanacDetailPanel({ detail, currentDate }: Props) {
   const jieQiName = detail.jieQi || detail.jieQiPeriod?.name || "";
-  const badge = getJieQiBadge(jieQiName);
   const clashLine = formatClashOneLine(detail.clashExplain);
   const importantDay = detail.holidayName || detail.importantDayName;
   const pengZu = `${detail.pengGan}；${detail.pengZhi}`;
@@ -68,10 +66,9 @@ export default function AlmanacDetailPanel({ detail, currentDate }: Props) {
               週{detail.weekdayLabel}，第 {detail.weekNumber} 週
             </p>
           </div>
-          {badge && jieQiName && (
+          {jieQiName && (
             <div className="almanac-jieqi-visual">
-              <JieQiArt name={jieQiName} tone={badge.tone} />
-              <span className="almanac-jieqi-caption">{jieQiName}</span>
+              <JieQiArt name={jieQiName} />
             </div>
           )}
         </div>
@@ -125,6 +122,17 @@ export default function AlmanacDetailPanel({ detail, currentDate }: Props) {
           <p className="almanac-chip-content">
             <BranchPills branches={detail.auspiciousHourBranches} />
           </p>
+        </div>
+        <div className="almanac-chip-row">
+          <AlmanacChipIcon tone="food-yi" />
+          <p className="almanac-chip-content">{joinTerms(detail.foodAdvice.yiShi)}</p>
+        </div>
+        <div className="almanac-chip-row">
+          <AlmanacChipIcon tone="food-ji" />
+          <div className="almanac-chip-content">
+            <p>{joinTerms(detail.foodAdvice.jiShi)}</p>
+            <p className="food-advice-note">{detail.foodAdvice.summary}</p>
+          </div>
         </div>
       </article>
 

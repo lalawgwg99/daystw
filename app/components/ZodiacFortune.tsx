@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { getAllZodiacFortunes, zodiacList } from "../data/zodiac-fortune";
 import { formatSolarDate } from "../lib/finder";
 import { storage } from "../lib/storage";
+import ZodiacIcon from "./ZodiacIcon";
 
 export default function ZodiacFortune() {
   const today = formatSolarDate(new Date());
@@ -19,11 +20,12 @@ export default function ZodiacFortune() {
       <div className="zodiac-chips scroll-x">
         {zodiacList.map((zodiac) => (
           <button
-            className={`purpose-chip ${selected === zodiac ? "active" : ""}`}
+            className={`purpose-chip zodiac-chip ${selected === zodiac ? "active" : ""}`}
             key={zodiac}
             type="button"
             onClick={() => setSelected(zodiac)}
           >
+            <ZodiacIcon zodiac={zodiac} size={18} />
             {zodiac}
           </button>
         ))}
@@ -35,7 +37,10 @@ export default function ZodiacFortune() {
             <span>運勢指數</span>
             <strong>{active.score} 分</strong>
           </div>
-          <h3>{active.zodiac} — 今日運勢</h3>
+          <h3>
+            <ZodiacIcon zodiac={active.zodiac} size={22} />
+            {active.zodiac} — 今日運勢
+          </h3>
           <p>{active.summary}</p>
           <p className="fortune-tip">小提示：{active.tip}</p>
         </div>

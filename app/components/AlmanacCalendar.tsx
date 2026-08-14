@@ -2,10 +2,10 @@
 
 import { CalendarPlus, ChevronLeft, ChevronRight, Share2 } from "lucide-react";
 import { useMemo } from "react";
-import { buildMonthGrid, type CalendarDay } from "../lib/calendar";
+import { buildMonthGrid, type CalendarDay, type DayDetail } from "../lib/calendar";
 import { formatSolarDate, monthOptions, yearOptions } from "../lib/finder";
 import { downloadDayIcs, shareDay } from "../lib/useDayActions";
-import type { DayDetail } from "../lib/calendar";
+import ZodiacIcon from "./ZodiacIcon";
 
 const WEEKDAYS = ["日", "一", "二", "三", "四", "五", "六"];
 
@@ -48,7 +48,9 @@ export default function AlmanacCalendar({
     <div className="almanac-calendar">
       <div className="almanac-year-pillar">
         <span className="almanac-year-pillar-text">
-          {yearPillar}［{yearShengXiao}］
+          {yearPillar}
+          <ZodiacIcon className="zodiac-icon-year" size={22} zodiac={yearShengXiao} />
+          ［{yearShengXiao}］
         </span>
         <div className="almanac-month-selects">
           <select
@@ -108,20 +110,30 @@ export default function AlmanacCalendar({
           const label = cell.jieQi || cell.lunarDay;
           return (
             <button
-              aria-label={`${cell.iso} ${cell.dayGanZhi}${cell.dayShengXiao}`}
+              aria-label={`${cell.iso} 宜${cell.yiPreview.join("、") || "無"} 忌${cell.jiPreview.join("、") || "無"}`}
               aria-pressed={cellSelected}
-              className={`almanac-cell ${cell.inMonth ? "" : "other-month"} ${cellToday ? "today" : ""} ${cellSelected ? "selected" : ""} ${cell.isHoliday ? "holiday" : ""} ${cell.isWeekend ? "weekend" : ""}`}
+              className={`almanac-cell ${cell.inMonth ? "" : "other-month"} ${cellToday ? "today" : ""} ${cellSelected ? "selected" : ""} ${cell.isHoliday ? "holiday" : ""} ${cell.isWeekend ? "weekend" : ""} ${cell.isHuangDao ? "huangdao" : ""} ${cell.isBadDay ? "bad-day" : ""}`}
               key={cell.iso}
               type="button"
               onClick={() => onSelectCell(cell)}
             >
-              <span className="almanac-cell-solar-wrap">
-                <span className="almanac-cell-solar">{cellToday ? "今" : cell.day}</span>
+              <span className="almanac-cell-head">
+                <span className="almanac-cell-solar-wrap">
+                  <span className="almanac-cell-solar">{cellToday ? "今" : cell.day}</span>
+                </span>
+                {cell.isHuangDao && cell.inMonth && <span className="almanac-cell-dot good" title="黃道" />}
               </span>
               <span className="almanac-cell-lunar">{label}</span>
-              <span className="almanac-cell-ganzhi">
-                {cell.dayGanZhi} {cell.dayShengXiao}
+              <span className="almanac-cell-zodiac">
+                <ZodiacIcon size={14} zodiac={cell.dayShengXiao} />
+                <span>{cell.dayGanZhi}</span>
               </span>
+              {cell.yiPreview.length > 0 && (
+                <span className="almanac-cell-yi">宜 {cell.yiPreview.join("·")}</span>
+              )}
+              {cell.jiPreview.length > 0 && (
+                <span className="almanac-cell-ji">忌 {cell.jiPreview.join("·")}</span>
+              )}
               {cell.holidayName && <span className="almanac-cell-event">{cell.holidayName}</span>}
             </button>
           );

@@ -2610,7 +2610,9 @@ html.elder-mode .festival-card h3 {
   border: 1px solid var(--border);
   border-radius: calc(var(--radius) + 4px);
   box-shadow: var(--shadow);
+  overflow: hidden;
   padding: 18px 16px 20px;
+  position: relative;
 }
 
 .almanac-day-nav {
@@ -3152,7 +3154,7 @@ html.elder-mode .festival-card h3 {
   border-top: 1px solid #f0e8da;
   display: grid;
   gap: 10px;
-  grid-template-columns: 36px 1fr;
+  grid-template-columns: 40px 1fr;
   padding: 12px 14px;
 }
 
@@ -3163,21 +3165,200 @@ html.elder-mode .festival-card h3 {
 .almanac-chip-icon {
   align-items: center;
   border-radius: 999px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.08);
   color: #fff;
   display: inline-flex;
   flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 900;
-  height: 32px;
+  height: 36px;
   justify-content: center;
-  width: 32px;
+  width: 36px;
 }
 
-.almanac-chip-icon.tone-clash { background: #5a9a6e; }
-.almanac-chip-icon.tone-yi { background: #c94b7a; }
-.almanac-chip-icon.tone-ji { background: #3d5a80; }
-.almanac-chip-icon.tone-sha { background: #4a4038; }
-.almanac-chip-icon.tone-hour { background: #e0783a; }
+.almanac-chip-icon.tone-clash { background: linear-gradient(145deg, #6aad7e, #4d8a60); }
+.almanac-chip-icon.tone-yi { background: linear-gradient(145deg, #d95686, #b83a66); }
+.almanac-chip-icon.tone-ji { background: linear-gradient(145deg, #4a6a94, #2f4a6e); }
+.almanac-chip-icon.tone-sha { background: linear-gradient(145deg, #5c5048, #3a322c); }
+.almanac-chip-icon.tone-hour { background: linear-gradient(145deg, #ef8f45, #cf6a22); }
+
+.almanac-chip-content.clash-line {
+  font-weight: 700;
+  padding-top: 6px;
+}
+
+/* ── 宜忌標籤（icon + 文字） ── */
+
+.yiji-tag-row {
+  gap: 8px;
+  margin-top: 0;
+}
+
+.yiji-tag {
+  align-items: center;
+  border-radius: 999px;
+  cursor: help;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 5px;
+  min-height: 34px;
+  padding: 6px 12px 6px 10px;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.yiji-tag:hover {
+  box-shadow: 0 2px 8px rgba(66, 39, 17, 0.12);
+  transform: translateY(-1px);
+}
+
+.yiji-tag.yi {
+  background: linear-gradient(180deg, #fff0f5 0%, #fce4ec 100%);
+  border: 1px solid #f48fb1;
+  color: #ad1457;
+}
+
+.yiji-tag.ji {
+  background: linear-gradient(180deg, #eef4fb 0%, #e3edf7 100%);
+  border: 1px solid #90caf9;
+  color: #1565c0;
+}
+
+/* ── 吉時地支 pill ── */
+
+.branch-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.branch-pill {
+  background: linear-gradient(180deg, #fff8e1 0%, #ffecb3 100%);
+  border: 1px solid #ffcc80;
+  border-radius: 8px;
+  color: #e65100;
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 900;
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px 10px;
+  place-content: center;
+}
+
+/* ── 節氣插畫 ── */
+
+.almanac-jieqi-visual {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+.jieqi-art {
+  height: 88px;
+  width: 88px;
+}
+
+.jieqi-art-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+}
+
+.jieqi-art.tone-spring { color: #2e7d32; }
+.jieqi-art.tone-summer { color: #e65100; }
+.jieqi-art.tone-autumn { color: #f57f17; }
+.jieqi-art.tone-winter { color: #1565c0; }
+.jieqi-art.tone-default { color: #5f4631; }
+
+.jieqi-art.tone-spring .jieqi-art-ring { fill: #e8f5e9; }
+.jieqi-art.tone-summer .jieqi-art-ring { fill: #fff3e0; }
+.jieqi-art.tone-autumn .jieqi-art-ring { fill: #fff8e1; }
+.jieqi-art.tone-winter .jieqi-art-ring { fill: #e3f2fd; }
+.jieqi-art.tone-default .jieqi-art-ring { fill: #f3eadb; }
+
+.jieqi-art-petal { fill: #f48fb1; opacity: 0.85; }
+.jieqi-art-ray { stroke: #ffb74d; stroke-linecap: round; stroke-width: 3; }
+.jieqi-art-leaf { fill: #ff9800; opacity: 0.85; }
+.jieqi-art-snow { fill: #90caf9; }
+
+.jieqi-art-label {
+  fill: currentColor;
+  font-family: "PingFang TC", "Noto Sans TC", sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.almanac-jieqi-caption {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* ── 日期卡裝飾 ── */
+
+.almanac-date-card.decorated {
+  overflow: hidden;
+  position: relative;
+}
+
+.almanac-decor {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.almanac-decor-cloud {
+  color: #a4362b;
+  height: 60px;
+  position: absolute;
+  width: 120px;
+}
+
+.almanac-decor-cloud.left {
+  left: -20px;
+  top: -10px;
+}
+
+.almanac-decor-cloud.right {
+  bottom: -8px;
+  right: -16px;
+  transform: scaleX(-1);
+}
+
+.almanac-date-card-top,
+.almanac-date-badges {
+  position: relative;
+  z-index: 1;
+}
+
+.almanac-date-card-label,
+.almanac-date-important,
+.almanac-date-jieqi-inline {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.almanac-summary-details summary {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
 
 .almanac-chip-content {
   font-size: 14px;
@@ -3324,8 +3505,11 @@ html.elder-mode .festival-card h3 {
 }
 
 .upcoming-festivals-head h2 {
+  align-items: center;
+  display: flex;
   font-size: 17px;
   font-weight: 900;
+  gap: 8px;
   margin: 0;
 }
 
@@ -3340,30 +3524,49 @@ html.elder-mode .festival-card h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   color: inherit;
+  column-gap: 8px;
   display: grid;
-  flex: 0 0 148px;
+  flex: 0 0 168px;
   gap: 4px;
+  grid-template-columns: auto 1fr;
   padding: 12px;
   text-decoration: none;
 }
 
+.upcoming-festival-icon {
+  align-items: center;
+  align-self: start;
+  background: var(--accent-soft);
+  border-radius: 10px;
+  color: var(--accent);
+  display: flex;
+  grid-row: span 4;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
 .upcoming-festival-card strong {
   font-size: 15px;
+  grid-column: 2;
 }
 
 .upcoming-festival-date {
   color: var(--accent);
   font-size: 13px;
   font-weight: 800;
+  grid-column: 2;
 }
 
 .upcoming-festival-lunar {
   color: var(--text-muted);
   font-size: 12px;
+  grid-column: 2;
 }
 
 .festival-tag.small {
   font-size: 10px;
+  grid-column: 2;
   padding: 2px 8px;
   width: fit-content;
 }
@@ -3399,22 +3602,39 @@ html.elder-mode .festival-card h3 {
 }
 
 .why-daystw-list li {
+  align-items: start;
   background: rgba(255, 255, 255, 0.7);
   border: 1px solid #eadfce;
   border-radius: 10px;
   display: grid;
   gap: 4px;
+  grid-template-columns: auto 1fr;
   padding: 12px;
+}
+
+.why-daystw-icon {
+  align-items: center;
+  background: var(--accent-soft);
+  border-radius: 10px;
+  color: var(--accent);
+  display: flex;
+  grid-row: span 2;
+  height: 40px;
+  justify-content: center;
+  margin-right: 4px;
+  width: 40px;
 }
 
 .why-daystw-list strong {
   color: #8b3a2f;
   font-size: 14px;
+  grid-column: 2;
 }
 
-.why-daystw-list span {
+.why-daystw-list span:not(.why-daystw-icon) {
   color: var(--text-muted);
   font-size: 13px;
+  grid-column: 2;
   line-height: 1.5;
 }
 

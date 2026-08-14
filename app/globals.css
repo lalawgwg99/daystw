@@ -1,0 +1,396 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f3ea;
+  --foreground: #201b16;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  border-radius: 999px;
+  color: inherit;
+  padding: 7px 10px;
+  text-decoration: none;
+}
+
+a:hover {
+  background: #efe5d4;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.brand-mark {
+  align-items: center;
+  background: #a4362b;
+  border-radius: 8px;
+  color: #fff7e8;
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: 800;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.product-heading p,
+.section-head p {
+  color: #8b3a2f;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0 0 8px;
+}
+
+.product-heading h1 {
+  font-size: clamp(38px, 7vw, 82px);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.98;
+  margin: 0;
+  max-width: 900px;
+}
+
+.metric,
+.today-panel,
+.finder-panel,
+.date-card,
+.festival-card,
+.ops-panel,
+.service-card,
+.deity-table {
+  background: #fffdf8;
+  border: 1px solid #ded2bf;
+  border-radius: 8px;
+  box-shadow: 0 18px 50px rgba(66, 39, 17, 0.08);
+}
+
+.metric {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 112px;
+  padding: 16px;
+}
+
+.metric svg,
+.panel-title svg,
+.section-head svg {
+  color: #a4362b;
+}
+
+.metric span {
+  color: #6e6257;
+  font-size: 13px;
+}
+
+.metric strong {
+  font-size: 18px;
+}
+
+.today-panel,
+.finder-panel,
+.ops-panel {
+  padding: 20px;
+}
+
+.panel-title,
+.section-head {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.panel-title {
+  color: #6e6257;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.today-panel > strong {
+  display: block;
+  font-size: 30px;
+  margin-bottom: 4px;
+}
+
+.today-panel p,
+.date-card p,
+.festival-card p,
+.service-card p,
+.ops-panel p {
+  color: #6e6257;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tag-row span,
+.good-tag,
+.pill-grid span {
+  background: #f3eadb;
+  border: 1px solid #e0d0bc;
+  border-radius: 999px;
+  color: #5f4631;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 9px;
+}
+
+.good-tag {
+  background: #fff1e7;
+  border-color: #eab89a;
+  color: #98362c;
+}
+
+dl {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+dl div {
+  border-top: 1px solid #eadfce;
+  display: grid;
+  gap: 4px;
+  padding-top: 10px;
+}
+
+dt {
+  color: #8b3a2f;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+dd {
+  color: #342b23;
+  margin: 0;
+}
+
+.finder-panel {
+  align-self: start;
+  display: grid;
+  gap: 14px;
+  position: sticky;
+  top: 16px;
+}
+
+label {
+  color: #5f5146;
+  display: grid;
+  font-size: 13px;
+  font-weight: 800;
+  gap: 7px;
+}
+
+input,
+select {
+  background: #fffaf1;
+  border: 1px solid #d9cbb8;
+  border-radius: 8px;
+  color: #201b16;
+  min-height: 44px;
+  padding: 0 12px;
+}
+
+.toggle-line {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.toggle-line input {
+  accent-color: #a4362b;
+  min-height: auto;
+  width: 18px;
+}
+
+.results-grid,
+.festival-grid,
+.service-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.date-card,
+.festival-card,
+.service-card {
+  min-height: 292px;
+  padding: 18px;
+}
+
+.date-topline {
+  align-items: center;
+  color: #796b5c;
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.date-topline strong {
+  color: #a4362b;
+}
+
+.date-card h2,
+.festival-card h3 {
+  font-size: 28px;
+  line-height: 1.08;
+  margin: 0 0 8px;
+}
+
+.detail-list {
+  font-size: 14px;
+}
+
+.empty-state {
+  align-items: center;
+  background: #fffdf8;
+  border: 1px dashed #d9cbb8;
+  border-radius: 8px;
+  color: #6e6257;
+  display: flex;
+  min-height: 220px;
+  padding: 24px;
+}
+
+.band {
+  background: #efe6d5;
+  border-block: 1px solid #ded2bf;
+}
+
+.section-head {
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.section-head h2 {
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: 0;
+  line-height: 1.04;
+  margin: 0;
+  max-width: 820px;
+}
+
+.mini-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.mini-list span {
+  align-items: flex-start;
+  color: #3f352c;
+  display: flex;
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.mini-list svg {
+  color: #a4362b;
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.ops-panel ol {
+  color: #4b4037;
+  line-height: 1.75;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.service-card {
+  min-height: 236px;
+}
+
+.deity-table {
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.table-title {
+  background: #201b16;
+  color: #fff7e8;
+  font-weight: 800;
+  padding: 14px 16px;
+}
+
+.deity-row {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1.2fr 1.2fr;
+  padding: 14px 16px;
+}
+
+.deity-row + .deity-row {
+  border-top: 1px solid #eadfce;
+}
+
+.deity-row span {
+  color: #8b3a2f;
+  font-weight: 800;
+}
+
+.deity-row small {
+  color: #6e6257;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .product-heading h1 {
+    font-size: 42px;
+  }
+
+  .finder-panel {
+    position: static;
+  }
+
+  .section-head {
+    align-items: flex-start;
+  }
+
+  .deity-row {
+    grid-template-columns: 1fr;
+  }
+}

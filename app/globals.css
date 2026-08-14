@@ -661,21 +661,26 @@ body {
   padding: 4px 8px;
 }
 
-a {
-  border-radius: 999px;
-  color: inherit;
-  padding: 7px 10px;
-  text-decoration: none;
-}
-
-a:hover {
-  background: #efe5d4;
-}
-
 button,
 input,
 select {
   font: inherit;
+}
+
+.site-brand,
+.inline-link,
+.wiki-index-card,
+.back-link,
+.seo-links a,
+.wiki-breadcrumb a,
+.wiki-related a {
+  color: inherit;
+  padding: 0;
+  text-decoration: none;
+}
+
+.nav-link {
+  /* padding defined in .nav-link block above */
 }
 
 .brand-mark {
@@ -1061,8 +1066,14 @@ select {
 }
 
 @media (max-width: 760px) {
+  .finder-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
   .finder-sidebar {
-    order: 0;
+    order: 2;
   }
 
   .results-area {
@@ -1905,18 +1916,33 @@ select {
 }
 
 .hour-row {
-  color: #5f4631;
-  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 10px;
+}
+
+.hour-row-label {
+  color: #8b3a2f;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hour-row-chips,
+.today-hour-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .hour-chip {
   background: #f3eadb;
   border-radius: 999px;
-  display: inline-block;
+  color: #5f4631;
+  display: inline-flex;
   font-size: 12px;
-  margin: 4px 4px 0 0;
-  padding: 4px 8px;
+  line-height: 1.3;
+  padding: 6px 10px;
 }
 
 .card-actions {
@@ -2001,6 +2027,16 @@ select {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 8px;
+}
+
+.seo-links a {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #5f4631;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 14px;
 }
 
 .landing-list {
@@ -2313,6 +2349,184 @@ html.elder-mode .festival-card h3 {
   line-height: 1.2;
 }
 
+.cell-clash {
+  color: #8b6914;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.clash-block {
+  background: #fff8f0;
+  border: 2px solid #eab89a;
+  border-radius: var(--radius);
+  margin-top: 16px;
+  padding: 14px 16px;
+}
+
+.clash-highlights {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.clash-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.clash-stat-zodiac {
+  border-color: #eab89a;
+  background: #fff1e7;
+}
+
+.clash-stat-label {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.clash-stat-value {
+  color: #a4362b;
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.clash-details {
+  margin-top: 12px;
+}
+
+.clash-details summary {
+  color: #8b3a2f;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  list-style: none;
+}
+
+.clash-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-details {
+  margin-top: 16px;
+}
+
+.advanced-details summary {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: #5f4631;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  list-style: none;
+  padding: 12px 14px;
+}
+
+.advanced-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-details[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.advanced-details .today-info-grid {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  margin-top: 0;
+  padding: 12px;
+}
+
+.yi-block {
+  border-left: 4px solid #2e7d32;
+}
+
+.ji-block {
+  border-left: 4px solid #8b6914;
+}
+
+.hours-block {
+  border-left: 4px solid #1565c0;
+}
+
+.clash-block.compact {
+  background: #f7f3ea;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  padding: 10px 12px;
+}
+
+.clash-block-title {
+  color: #8b3a2f;
+  font-size: 15px;
+  font-weight: 900;
+  margin: 0 0 8px;
+}
+
+.clash-summary {
+  color: #342b23;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.clash-detail {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+}
+
+.clash-detail div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.clash-detail dt {
+  border: none;
+  color: #8b3a2f;
+  font-size: 12px;
+  font-weight: 800;
+  margin: 0;
+  padding: 0;
+}
+
+.clash-detail dd {
+  color: #342b23;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.clash-detail strong {
+  color: #a4362b;
+}
+
+.clash-sub {
+  color: var(--text-muted);
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
 .cell-holiday {
   color: #a4362b;
   display: -webkit-box;
@@ -2536,12 +2750,6 @@ html.elder-mode .festival-card h3 {
   margin: 0;
 }
 
-.today-hour-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 .hour-chip.large {
   font-size: 13px;
   padding: 6px 10px;
@@ -2762,4 +2970,240 @@ html.elder-mode .festival-card h3 {
   display: block;
   font-size: 13px;
   margin-top: 4px;
+}
+
+/* ── 手機版：閱讀重點與版面修正 ── */
+
+@media (max-width: 767px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .page-container {
+    padding: 0 12px 40px;
+  }
+
+  .site-header-inner {
+    padding: 0 12px;
+  }
+
+  .section-block {
+    margin-top: 24px;
+  }
+
+  .section-head-block .section-title {
+    font-size: 22px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+  }
+
+  /* 今日黃曆 */
+  .today-dashboard {
+    padding: 16px 14px;
+  }
+
+  .today-dashboard-title {
+    text-align: center;
+  }
+
+  .today-dashboard-date {
+    font-size: 26px;
+    justify-content: center;
+  }
+
+  .today-dashboard-date span {
+    font-size: 16px;
+  }
+
+  .today-dashboard-lunar {
+    font-size: 15px;
+  }
+
+  .today-panel-block h2 {
+    font-size: 17px;
+  }
+
+  .today-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .today-dashboard-actions {
+    flex-direction: column;
+  }
+
+  .today-dashboard-actions .inline-link {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .clash-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .clash-stat {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .clash-stat-value {
+    font-size: 18px;
+  }
+
+  /* 推薦吉日 */
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .date-card.compact h2 {
+    font-size: 24px;
+  }
+
+  .card-actions {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card-actions .icon-action {
+    justify-content: center;
+    min-height: 40px;
+    width: 100%;
+  }
+
+  .card-actions .icon-action:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .finder-head-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .finder-panel {
+    padding: 12px;
+  }
+
+  .purpose-chip {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+
+  /* 月曆 */
+  .month-calendar {
+    padding: 12px 10px;
+  }
+
+  .calendar-grid,
+  .calendar-weekdays {
+    gap: 3px;
+  }
+
+  .calendar-cell {
+    min-height: 54px;
+    padding: 4px 3px;
+  }
+
+  .cell-solar {
+    font-size: 13px;
+  }
+
+  .cell-lunar {
+    font-size: 9px;
+  }
+
+  .cell-yi,
+  .cell-ji {
+    display: none;
+  }
+
+  .cell-clash {
+    font-size: 9px;
+  }
+
+  .calendar-hint {
+    font-size: 12px;
+  }
+
+  .calendar-month-summary {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .calendar-detail-panel {
+    border-top: 3px solid var(--accent);
+    position: static;
+  }
+
+  .calendar-detail-head {
+    flex-direction: column;
+  }
+
+  .calendar-detail-head h3 {
+    font-size: 20px;
+  }
+
+  /* 民俗服務 */
+  .service-tab {
+    min-height: 56px;
+    padding: 12px 8px;
+  }
+
+  .service-tab span {
+    font-size: 13px;
+  }
+
+  /* 百科 */
+  .wiki-index-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wiki-search-bar input {
+    font-size: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .inline-link,
+  .form-actions .btn-primary,
+  .form-actions .btn-secondary {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .inline-link.btn-primary,
+  .inline-link.btn-secondary {
+    display: flex;
+  }
+
+  .landing-actions {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 768px) {
+  .advanced-details summary {
+    display: none;
+  }
+
+  .advanced-details .today-info-grid {
+    border: none;
+    padding: 0;
+  }
 }

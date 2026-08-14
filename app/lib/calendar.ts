@@ -2,6 +2,7 @@ import { Solar } from "lunar-javascript";
 import { getHoliday, isHoliday, isMakeupDay } from "../data/taiwan-holidays";
 import { explainTerm } from "../data/glossary";
 import { getBadDayInfo } from "./bad-days";
+import { explainClash, type ClashExplanation } from "./clash";
 import { formatSolarDate, getLunarForDate } from "./finder";
 import { formatLunarDate, toTaiwanTraditional } from "./traditional";
 
@@ -21,6 +22,7 @@ export type CalendarDay = {
   jiPreview: string[];
   jianChu: string;
   clash: string;
+  clashZodiac: string;
   isBadDay: boolean;
   badReasons: string[];
 };
@@ -36,6 +38,7 @@ export type DayDetail = {
   jiExplained: { term: string; plain: string }[];
   clash: string;
   sha: string;
+  clashExplain: ClashExplanation;
   tai: string;
   pengGan: string;
   pengZhi: string;
@@ -79,6 +82,7 @@ export function getDayDetail(year: number, month: number, day: number): DayDetai
     jiExplained: explainItems(ji, "傳統黃曆記載的忌行之事"),
     clash: toTaiwanTraditional(lunar.getDayChongDesc()),
     sha: toTaiwanTraditional(lunar.getDaySha()),
+    clashExplain: explainClash(year, month, day),
     tai: toTaiwanTraditional(lunar.getDayPositionTai()),
     pengGan: toTaiwanTraditional(lunar.getPengZuGan()),
     pengZhi: toTaiwanTraditional(lunar.getPengZuZhi()),
@@ -134,6 +138,7 @@ export function buildMonthGrid(year: number, month: number): CalendarDay[] {
       jiPreview: ji.slice(0, 1),
       jianChu: toTaiwanTraditional(lunar.getZhiXing()),
       clash: toTaiwanTraditional(lunar.getDayChongDesc()),
+      clashZodiac: toTaiwanTraditional(lunar.getDayChongShengXiao()),
       isBadDay: bad.isBad,
       badReasons: bad.reasons,
     });

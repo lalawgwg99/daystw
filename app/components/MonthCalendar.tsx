@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { buildMonthGrid, getDayDetail, type CalendarDay } from "../lib/calendar";
 import { formatSolarDate } from "../lib/finder";
 import { getAuspiciousHours } from "../lib/hours";
+import ClashExplain from "./ClashExplain";
 import TermTooltip from "./TermTooltip";
 
 type Props = {
@@ -137,6 +138,9 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
                   {cell.yiPreview.length > 0 && (
                     <span className="cell-yi">宜 {cell.yiPreview.join("、")}</span>
                   )}
+                  {cell.clashZodiac && (
+                    <span className="cell-clash">沖{cell.clashZodiac}</span>
+                  )}
                   {cell.jiPreview.length > 0 && (
                     <span className="cell-ji">忌 {cell.jiPreview[0]}</span>
                   )}
@@ -238,6 +242,8 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
             </section>
           )}
 
+          <ClashExplain clash={selectedDetail.clashExplain} />
+
           <dl className="today-info-grid compact">
             <div>
               <dt>建除</dt>
@@ -246,12 +252,6 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
             <div>
               <dt>值神</dt>
               <dd>{selectedDetail.tianShen}</dd>
-            </div>
-            <div>
-              <dt>沖煞</dt>
-              <dd>
-                {selectedDetail.clash} 煞{selectedDetail.sha}
-              </dd>
             </div>
             <div>
               <dt>胎神</dt>

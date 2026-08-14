@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import FestivalSection from "./components/FestivalSection";
 import FinderSection from "./components/FinderSection";
-import HeroStrip from "./components/HeroStrip";
 import MonthCalendar from "./components/MonthCalendar";
 import SavedDatesPanel from "./components/SavedDatesPanel";
 import SectionBlock from "./components/SectionBlock";
@@ -32,8 +31,6 @@ export default function Home() {
         <div className="today-section today-section-first">
           <TodayBanner />
         </div>
-
-        <HeroStrip />
 
         <FinderSection settingsVersion={settingsVersion} />
 

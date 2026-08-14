@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { getDayDetail, shiftDate } from "../lib/calendar";
 import { formatSolarDate } from "../lib/finder";
 import { getAuspiciousHours } from "../lib/hours";
+import ClashExplain from "./ClashExplain";
 import TermTooltip from "./TermTooltip";
 
 type Props = {
@@ -120,7 +121,11 @@ export default function TodayBanner({ initialDate }: Props) {
         </section>
       )}
 
-      <dl className="today-info-grid">
+      <ClashExplain clash={detail.clashExplain} />
+
+      <details className="advanced-details">
+        <summary>進階資訊（干支、胎神、彭祖）</summary>
+        <dl className="today-info-grid">
         <div>
           <dt>日干支</dt>
           <dd>{detail.dayGanZhi}</dd>
@@ -138,12 +143,6 @@ export default function TodayBanner({ initialDate }: Props) {
           <dd>{detail.tianShen}</dd>
         </div>
         <div>
-          <dt>沖煞</dt>
-          <dd>
-            {detail.clash} 煞{detail.sha}
-          </dd>
-        </div>
-        <div>
           <dt>胎神</dt>
           <dd>{detail.tai}</dd>
         </div>
@@ -159,7 +158,8 @@ export default function TodayBanner({ initialDate }: Props) {
             <dd>{detail.badReasons.join("、")}</dd>
           </div>
         )}
-      </dl>
+        </dl>
+      </details>
 
       <div className="today-dashboard-actions">
         <a className="btn-primary inline-link" href="#finder">

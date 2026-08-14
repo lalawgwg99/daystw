@@ -1,11 +1,13 @@
 "use client";
 
 import { CalendarPlus, ChevronDown, Heart, Share2 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { explainTerms } from "../data/glossary";
+import { explainClashFromRaw } from "../lib/clash";
 import type { DateResult } from "../lib/finder";
 import { buildIcs, downloadIcs } from "../lib/ics";
 import { generateId, storage } from "../lib/storage";
+import ClashExplain from "./ClashExplain";
 import TermTooltip from "./TermTooltip";
 
 type Props = {
@@ -17,6 +19,10 @@ export default function DateResultCard({ item, purpose }: Props) {
   const [open, setOpen] = useState(false);
   const [saved, setSaved] = useState(() => storage.isDateSaved(item.iso, purpose));
   const yiExplained = explainTerms(item.matchedYi.length > 0 ? item.matchedYi : item.yi.slice(0, 4));
+  const clashExplain = useMemo(
+    () => explainClashFromRaw(item.clash, item.sha, item.year),
+    [item.clash, item.sha, item.year],
+  );
 
   function handleSave() {
     storage.saveDate({
@@ -77,18 +83,18 @@ export default function DateResultCard({ item, purpose }: Props) {
 
       {item.auspiciousHours.length > 0 && (
         <div className="hour-row">
-          <strong>吉時：</strong>
-          {item.auspiciousHours.map((h) => (
-            <span className="hour-chip" key={h.ganZhi}>
-              {h.label}
-            </span>
-          ))}
+          <strong className="hour-row-label">吉時</strong>
+          <div className="hour-row-chips">
+            {item.auspiciousHours.map((h) => (
+              <span className="hour-chip" key={h.ganZhi}>
+                {h.label}
+              </span>
+            ))}
+          </div>
         </div>
       )}
 
-      <div className="date-card-meta">
-        <span>沖煞：{item.clash} 煞{item.sha}</span>
-      </div>
+      <ClashExplain clash={clashExplain} compact />
 
       <div className="card-actions">
         <button className="icon-action" type="button" onClick={handleShare}>

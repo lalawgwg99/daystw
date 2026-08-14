@@ -2,6 +2,9 @@ import { Solar } from "lunar-javascript";
 import { getBadDayInfo } from "./bad-days";
 import { getAuspiciousHours, type HourSlot } from "./hours";
 import { formatLunarDate, toTaiwanTraditional } from "./traditional";
+import { zodiacFromBirthYear, zodiacOptions } from "./zodiac";
+
+export { zodiacFromBirthYear, zodiacOptions };
 
 export type PurposeOption = {
   label: string;
@@ -23,8 +26,6 @@ export const purposeOptions: PurposeOption[] = [
   { label: "簽約交易", shortLabel: "簽約", value: "立券", keywords: ["立券", "交易", "纳财", "納財"], seoSlug: "contract" },
   { label: "安葬掃墓", shortLabel: "安葬", value: "安葬", keywords: ["安葬", "破土", "启钻", "啟鑽"], seoSlug: "burial" },
 ];
-
-export const zodiacOptions = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"];
 
 export type DateRangeMode = "month" | "range";
 
@@ -68,13 +69,6 @@ export function formatSolarDate(date: Date) {
 
 export function getLunarForDate(year: number, month: number, day: number) {
   return Solar.fromYmd(year, month, day).getLunar();
-}
-
-/** 依出生年推算生肖（以立春為界） */
-export function zodiacFromBirthYear(birthYear: number): string | null {
-  if (birthYear < 1900 || birthYear > 2100) return null;
-  const lunar = Solar.fromYmd(birthYear, 6, 15).getLunar();
-  return toTaiwanTraditional(lunar.getYearShengXiaoByLiChun());
 }
 
 export function purposeBySlug(slug: string): PurposeOption | undefined {

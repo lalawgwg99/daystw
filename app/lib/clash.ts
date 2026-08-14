@@ -114,6 +114,19 @@ export function explainClash(year: number, month: number, day: number): ClashExp
 }
 
 /** 從已有 clash 字串快速解析（擇日卡片用） */
+/** click108 風格一行沖煞摘要 */
+export function formatClashOneLine(clash: ClashExplanation): string {
+  if (!clash.zodiac) return clash.rawClash || "—";
+  let text = `屬${clash.zodiac}`;
+  if (clash.ganZhi || clash.ages.length > 0) {
+    const inner = [clash.ganZhi, clash.ages.length > 0 ? `${clash.ages.join("、")} 歲` : ""]
+      .filter(Boolean)
+      .join(" · ");
+    text += `（${inner}）`;
+  }
+  return text;
+}
+
 export function explainClashFromRaw(
   rawClash: string,
   sha: string,

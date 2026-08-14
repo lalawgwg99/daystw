@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import FestivalSection from "./components/FestivalSection";
 import FinderSection from "./components/FinderSection";
-import MonthCalendar from "./components/MonthCalendar";
+import AlmanacQuickNav from "./components/AlmanacQuickNav";
+import LunarConverter from "./components/LunarConverter";
 import SavedDatesPanel from "./components/SavedDatesPanel";
 import SectionBlock from "./components/SectionBlock";
 import ServicePanel from "./components/ServicePanel";
 import SiteHeader from "./components/SiteHeader";
 import GlossaryWiki from "./components/GlossaryWiki";
+import WhyDaystw from "./components/WhyDaystw";
 import { applyStoredSettings } from "./components/SettingsBar";
 import TodayBanner from "./components/TodayBanner";
 import ZodiacFortune from "./components/ZodiacFortune";
@@ -24,23 +26,21 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="page-root">
+    <main className="page-root" id="top">
       <SiteHeader onSettingsChange={() => setSettingsVersion((v) => v + 1)} />
 
       <div className="page-container">
+        <AlmanacQuickNav />
+
         <div className="today-section today-section-first">
           <TodayBanner />
         </div>
 
+        <WhyDaystw />
+
         <FinderSection settingsVersion={settingsVersion} />
 
-        <SectionBlock
-          desc="每格顯示農曆、宜忌摘要；點選日期右側看完整說明。"
-          id="month-calendar"
-          title="月曆總覽"
-        >
-          <MonthCalendar />
-        </SectionBlock>
+        <LunarConverter />
 
         <SectionBlock id="zodiac" title="今日生肖運勢">
           <ZodiacFortune />

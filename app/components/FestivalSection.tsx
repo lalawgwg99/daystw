@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircle2, Clock3, Tags } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   countFestivalsByCategory,
   festivalCategoryLabels,
@@ -13,6 +13,18 @@ import {
 } from "../data/festivals";
 
 const categoryOrder: (FestivalCategory | "")[] = ["", "folk", "deity", "worship", "jieqi", "national"];
+
+function parseFestivalCategoryFromHash(): FestivalCategory | "" {
+  if (typeof window === "undefined") return "";
+  const raw = window.location.hash.replace(/^#/, "");
+  const [section, query = ""] = raw.split("?");
+  if (section !== "festival") return "";
+  const category = new URLSearchParams(query).get("category") ?? "";
+  if (category && categoryOrder.includes(category as FestivalCategory)) {
+    return category as FestivalCategory;
+  }
+  return "";
+}
 
 function FestivalCard({ festival }: { festival: ResolvedFestival }) {
   return (
@@ -58,6 +70,20 @@ export default function FestivalSection() {
   const [category, setCategory] = useState<FestivalCategory | "">("");
   const [view, setView] = useState<"upcoming" | "all">("upcoming");
   const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    function applyHashCategory() {
+      const fromHash = parseFestivalCategoryFromHash();
+      if (fromHash) {
+        setCategory(fromHash);
+        setView("all");
+        setShowAll(false);
+      }
+    }
+    applyHashCategory();
+    window.addEventListener("hashchange", applyHashCategory);
+    return () => window.removeEventListener("hashchange", applyHashCategory);
+  }, []);
 
   const counts = useMemo(() => countFestivalsByCategory(year), [year]);
 

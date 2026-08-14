@@ -7,7 +7,7 @@ import { requestNotificationPermission, storage } from "../lib/storage";
 const navItems = [
   { href: "#calendar", label: "今日" },
   { href: "#finder", label: "找吉日" },
-  { href: "#month-calendar", label: "月曆" },
+  { href: "#converter", label: "轉換" },
   { href: "/wiki", label: "百科", external: true },
   { href: "#services", label: "民俗" },
 ];
@@ -22,7 +22,7 @@ export default function SiteHeader({ onSettingsChange }: Props) {
   const [settings, setSettings] = useState(() => storage.getSettings());
 
   useEffect(() => {
-    const sections = ["calendar", "finder", "month-calendar", "zodiac", "festival", "services"];
+    const sections = ["calendar", "finder", "converter", "zodiac", "festival", "services"];
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries

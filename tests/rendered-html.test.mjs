@@ -32,7 +32,8 @@ test("server-renders the fortune calendar product page", async () => {
   assert.match(html, /<html lang="zh-Hant-TW">/i);
   assert.match(html, /吉日通/);
   assert.match(html, /推薦吉日/);
-  assert.match(html, /月曆總覽/);
+  assert.match(html, /當日時辰吉凶/);
+  assert.match(html, /國農曆轉換/);
   assert.match(html, /民俗指南/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/i);
 });
@@ -54,7 +55,9 @@ test("keeps starter preview code out of the product source", async () => {
   ]);
 
   assert.match(page, /FinderSection/);
-  assert.match(page, /MonthCalendar/);
+  assert.match(page, /TodayBanner/);
+  assert.match(page, /AlmanacQuickNav/);
+  assert.match(page, /LunarConverter/);
   assert.match(layout, /吉日通/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview|Your site is taking shape/);

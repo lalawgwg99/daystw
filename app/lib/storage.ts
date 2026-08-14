@@ -124,5 +124,5 @@ export async function requestNotificationPermission(): Promise<boolean> {
 
 export function registerServiceWorker(): void {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
-  navigator.serviceWorker.register("/sw.js").catch(() => {});
+  navigator.serviceWorker.register("/sw.js?v=3").catch(() => {});
 }

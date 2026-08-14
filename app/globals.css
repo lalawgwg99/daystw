@@ -27,7 +27,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-h) + 12px);
+  scroll-padding-top: calc(var(--header-h) + 48px);
 }
 
 body {
@@ -2603,7 +2603,895 @@ html.elder-mode .festival-card h3 {
   white-space: nowrap;
 }
 
-/* ── 今日黃曆主面板 ── */
+/* ── 好日網風格：今日黃曆 ── */
+
+.almanac-dashboard {
+  background: linear-gradient(145deg, #fffdf8 0%, #fff6eb 100%);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow);
+  padding: 18px 16px 20px;
+}
+
+.almanac-day-nav {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 16px;
+}
+
+.almanac-day-nav-center {
+  text-align: center;
+}
+
+.almanac-day-nav-eyebrow {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+
+.almanac-day-nav-title {
+  font-size: clamp(18px, 3.5vw, 24px);
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.almanac-layout {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .almanac-layout {
+    align-items: start;
+    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+  }
+}
+
+.almanac-calendar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  min-width: 0;
+  padding: 14px;
+}
+
+.almanac-month-toolbar {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.almanac-month-selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.almanac-month-selects select {
+  background: #fffaf1;
+  border: 1px solid #ded2bf;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 40px;
+  padding: 0 10px;
+}
+
+.almanac-month-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.almanac-weekdays {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin-bottom: 6px;
+}
+
+.almanac-weekdays span {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.almanac-weekdays span.weekend-head {
+  color: #a4362b;
+}
+
+.almanac-grid {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.almanac-cell {
+  background: #fffaf1;
+  border: 1px solid #eadfce;
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  gap: 2px;
+  min-height: 68px;
+  padding: 6px 3px;
+  text-align: center;
+}
+
+.almanac-cell.other-month {
+  opacity: 0.45;
+}
+
+.almanac-cell.weekend .almanac-cell-solar {
+  color: #a4362b;
+}
+
+.almanac-cell.today {
+  border-color: #c45a3c;
+}
+
+.almanac-cell.selected {
+  background: #fff1e7;
+  border-color: #c45a3c;
+  box-shadow: inset 0 0 0 1px #c45a3c;
+}
+
+.almanac-cell.holiday {
+  background: #fff5f5;
+}
+
+.almanac-cell-solar {
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.almanac-cell.today .almanac-cell-solar {
+  color: #c45a3c;
+}
+
+.almanac-cell-lunar {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.almanac-cell-event {
+  color: #c62828;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.almanac-back-today {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.almanac-detail {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.almanac-date-card,
+.almanac-table-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.almanac-date-card-label {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+.almanac-date-card-main {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.almanac-date-week {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0 0 4px;
+}
+
+.almanac-date-lunar {
+  font-size: 20px;
+  font-weight: 900;
+  margin: 0 0 6px;
+}
+
+.almanac-date-pillars {
+  color: #5f4631;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.almanac-date-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.almanac-date-jieqi {
+  background: #e3f2fd;
+  border-radius: 8px;
+  color: #1565c0;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 12px 0 0;
+  padding: 8px 10px;
+}
+
+.almanac-detail-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.almanac-detail-table tr + tr {
+  border-top: 1px solid var(--border);
+}
+
+.almanac-detail-table th,
+.almanac-detail-table td {
+  padding: 10px 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.almanac-row-label {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 800;
+  padding-right: 12px;
+  white-space: nowrap;
+  width: 72px;
+}
+
+.almanac-row-label.tone-yi { color: #2e7d32; }
+.almanac-row-label.tone-ji { color: #c62828; }
+.almanac-row-label.tone-clash { color: #8b4513; }
+.almanac-row-label.tone-sha { color: #6d4c41; }
+.almanac-row-label.tone-good { color: #1565c0; }
+.almanac-row-label.tone-bad { color: #888; }
+.almanac-row-label.tone-dir { color: #7b1fa2; }
+.almanac-row-label.tone-tai { color: #5f4631; }
+.almanac-row-label.tone-hour { color: #e65100; }
+.almanac-row-label.tone-peng { color: #795548; }
+
+.almanac-detail-table td {
+  color: #342b23;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.almanac-term-list {
+  display: inline;
+}
+
+.almanac-term-list .almanac-term:not(:last-child)::after {
+  content: "、";
+}
+
+.almanac-term {
+  cursor: help;
+}
+
+.almanac-bad-note {
+  background: #faf5f5;
+  border: 1px solid #eadfce;
+  border-radius: 8px;
+  color: #888;
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.almanac-hours {
+  margin-top: 18px;
+}
+
+.almanac-hours h2 {
+  font-size: 18px;
+  font-weight: 900;
+  margin: 0 0 12px;
+}
+
+.almanac-hour-list {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .almanac-hour-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .almanac-hour-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.almanac-hour-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.almanac-hour-card.auspicious {
+  border-color: #f0c987;
+  box-shadow: inset 3px 0 0 #e6a817;
+}
+
+.almanac-hour-head {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.almanac-hour-branch {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.almanac-hour-branch strong {
+  font-size: 18px;
+}
+
+.almanac-hour-range {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.almanac-hour-badge {
+  background: #fff8e1;
+  border-radius: 999px;
+  color: #8b6914;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+}
+
+.almanac-hour-luck {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.almanac-hour-luck.good { color: #2e7d32; }
+.almanac-hour-luck.bad { color: #888; }
+
+.almanac-hour-meta {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+}
+
+.almanac-hour-meta div {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: 28px 1fr;
+}
+
+.almanac-hour-meta dt {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.almanac-hour-meta dd {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.almanac-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* ── 子導覽（click108 風格） ── */
+
+.almanac-quick-nav {
+  background: #f7f0e4;
+  border-bottom: 1px solid #ded2bf;
+  margin: 0 -16px 0;
+  position: sticky;
+  top: var(--header-h);
+  z-index: 40;
+}
+
+.almanac-quick-nav-inner {
+  display: flex;
+  gap: 0;
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 0 8px;
+}
+
+.almanac-quick-link {
+  border-bottom: 3px solid transparent;
+  color: #5f4631;
+  flex: 0 0 auto;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.almanac-quick-link:hover {
+  color: var(--accent);
+}
+
+.almanac-quick-link.active {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── 月曆年柱 + 橘圈選取 ── */
+
+.almanac-year-pillar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.almanac-year-pillar-text {
+  color: #8b3a2f;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.almanac-month-toolbar.compact {
+  align-items: center;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  justify-content: stretch;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.almanac-back-today.compact {
+  font-size: 13px;
+  min-height: 38px;
+  padding: 0 12px;
+  width: 100%;
+}
+
+.almanac-cell-solar-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.almanac-cell.selected .almanac-cell-solar-wrap {
+  background: #e0783a;
+  border-radius: 999px;
+  min-width: 30px;
+  padding: 2px 7px;
+}
+
+.almanac-cell.selected .almanac-cell-solar {
+  color: #fff;
+}
+
+.almanac-cell-ganzhi {
+  color: #8a7a6a;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.almanac-calendar-tools {
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.almanac-calendar-tools .icon-action {
+  background: #fffaf1;
+  border: 1px solid #ded2bf;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
+}
+
+/* ── 右欄 chips（click108 標籤式） ── */
+
+.almanac-chips-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.almanac-chip-row {
+  align-items: flex-start;
+  border-top: 1px solid #f0e8da;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 36px 1fr;
+  padding: 12px 14px;
+}
+
+.almanac-chip-row:first-child {
+  border-top: none;
+}
+
+.almanac-chip-icon {
+  align-items: center;
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 900;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+}
+
+.almanac-chip-icon.tone-clash { background: #5a9a6e; }
+.almanac-chip-icon.tone-yi { background: #c94b7a; }
+.almanac-chip-icon.tone-ji { background: #3d5a80; }
+.almanac-chip-icon.tone-sha { background: #4a4038; }
+.almanac-chip-icon.tone-hour { background: #e0783a; }
+
+.almanac-chip-content {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+  min-width: 0;
+}
+
+.almanac-chip-content .good-tag {
+  background: #fce4ec;
+  border: 1px solid #f8bbd0;
+  color: #ad1457;
+  font-size: 13px;
+  min-height: 32px;
+  padding: 5px 10px;
+}
+
+.almanac-chip-content .bad-tag {
+  background: #e3edf7;
+  border: 1px solid #bbdefb;
+  color: #1565c0;
+  font-size: 13px;
+  min-height: 32px;
+  padding: 5px 10px;
+}
+
+.almanac-date-card-top {
+  align-items: flex-start;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.almanac-date-card-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.almanac-date-important {
+  color: #342b23;
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+
+.almanac-date-important strong {
+  color: #c62828;
+}
+
+.almanac-date-jieqi-inline {
+  color: #1565c0;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 4px 0 0;
+}
+
+.almanac-jieqi-badge {
+  align-items: center;
+  border: 2px solid #ded2bf;
+  border-radius: 999px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 72px;
+  justify-content: center;
+  width: 72px;
+}
+
+.almanac-jieqi-badge-glyph {
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.almanac-jieqi-badge-name {
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.almanac-jieqi-badge.tone-spring { background: #e8f5e9; color: #2e7d32; }
+.almanac-jieqi-badge.tone-summer { background: #fff3e0; color: #e65100; }
+.almanac-jieqi-badge.tone-autumn { background: #fff8e1; color: #f57f17; }
+.almanac-jieqi-badge.tone-winter { background: #e3f2fd; color: #1565c0; }
+.almanac-jieqi-badge.tone-default { background: #f3eadb; color: #5f4631; }
+
+.almanac-summary-details {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 14px 14px;
+}
+
+.almanac-summary-details summary {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 800;
+  list-style: none;
+  padding: 14px 0;
+}
+
+.almanac-summary-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.almanac-hours-toggle {
+  align-items: center;
+  background: linear-gradient(135deg, #c94b3c 0%, #a4362b 100%);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  font-weight: 900;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+  min-height: 48px;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+.almanac-hours-toggle svg {
+  transition: transform 0.2s;
+}
+
+.almanac-hours-toggle svg.open {
+  transform: rotate(180deg);
+}
+
+/* ── 即將到來的節日 ── */
+
+.upcoming-festivals-strip {
+  border-top: 1px solid #ded2bf;
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.upcoming-festivals-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.upcoming-festivals-head h2 {
+  font-size: 17px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.upcoming-festivals-scroll {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 4px;
+}
+
+.upcoming-festival-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  display: grid;
+  flex: 0 0 148px;
+  gap: 4px;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.upcoming-festival-card strong {
+  font-size: 15px;
+}
+
+.upcoming-festival-date {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.upcoming-festival-lunar {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.festival-tag.small {
+  font-size: 10px;
+  padding: 2px 8px;
+  width: fit-content;
+}
+
+/* ── 為什麼選吉日通 ── */
+
+.why-daystw {
+  background: linear-gradient(135deg, #fff9f0 0%, #fff3e6 100%);
+  border: 1px solid #eadfce;
+  border-radius: var(--radius);
+  margin-top: 16px;
+  padding: 16px 18px;
+}
+
+.why-daystw h2 {
+  font-size: 17px;
+  font-weight: 900;
+  margin: 0 0 12px;
+}
+
+.why-daystw-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 700px) {
+  .why-daystw-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.why-daystw-list li {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #eadfce;
+  border-radius: 10px;
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+}
+
+.why-daystw-list strong {
+  color: #8b3a2f;
+  font-size: 14px;
+}
+
+.why-daystw-list span {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ── 國農曆轉換 ── */
+
+.converter-mode-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.converter-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+@media (min-width: 640px) {
+  .converter-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.converter-inputs label {
+  display: grid;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 6px;
+}
+
+.converter-inputs.grid-3 {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.converter-inputs input {
+  min-height: 44px;
+}
+
+.converter-result p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+.converter-result strong {
+  color: #8b3a2f;
+}
+
+.elder-mode .almanac-chip-content .good-tag,
+.elder-mode .almanac-chip-content .bad-tag {
+  font-size: 15px;
+  min-height: 40px;
+  padding: 8px 12px;
+}
+
+.elder-mode .almanac-quick-link {
+  font-size: 16px;
+  padding: 14px 16px;
+}
+
+.elder-mode .almanac-date-lunar {
+  font-size: 22px;
+}
+
+.elder-mode .almanac-cell {
+  min-height: 76px;
+}
+
+.elder-mode .almanac-cell-solar {
+  font-size: 18px;
+}
 
 .today-dashboard {
   background: linear-gradient(145deg, #fffdf8 0%, #fff6eb 100%);
@@ -3003,7 +3891,65 @@ html.elder-mode .festival-card h3 {
     font-size: 14px;
   }
 
-  /* 今日黃曆 */
+  /* 今日黃曆（好日網 + click108） */
+  .almanac-quick-nav {
+    margin: 0 -12px 0;
+  }
+
+  .almanac-quick-link {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .almanac-dashboard {
+    padding: 14px 12px 16px;
+  }
+
+  .almanac-day-nav-title {
+    font-size: 16px;
+  }
+
+  .almanac-month-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .almanac-month-selects select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .almanac-cell {
+    min-height: 52px;
+    padding: 5px 2px;
+  }
+
+  .almanac-cell-solar {
+    font-size: 14px;
+  }
+
+  .almanac-cell-lunar {
+    font-size: 10px;
+  }
+
+  .almanac-date-lunar {
+    font-size: 18px;
+  }
+
+  .almanac-row-label {
+    width: 58px;
+  }
+
+  .almanac-actions {
+    flex-direction: column;
+  }
+
+  .almanac-actions .inline-link {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
   .today-dashboard {
     padding: 16px 14px;
   }

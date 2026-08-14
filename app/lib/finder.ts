@@ -245,3 +245,21 @@ export const monthOptions = Array.from({ length: 12 }, (_, i) => ({
   value: i + 1,
   label: `${i + 1} 月`,
 }));
+
+/** 農曆月日反查國曆（當年） */
+export function findSolarForLunar(
+  year: number,
+  lunarMonth: number,
+  lunarDay: number,
+): string | null {
+  for (let m = 1; m <= 12; m++) {
+    const days = new Date(year, m, 0).getDate();
+    for (let d = 1; d <= days; d++) {
+      const lunar = Solar.fromYmd(year, m, d).getLunar();
+      if (lunar.getMonth() === lunarMonth && lunar.getDay() === lunarDay) {
+        return formatSolarDate(new Date(year, m - 1, d));
+      }
+    }
+  }
+  return null;
+}

@@ -39,6 +39,22 @@ export default function FinderSection({ settingsVersion = 0 }: Props) {
     setExcludeBadDays(storage.getSettings().excludeBadDays);
   }, [settingsVersion]);
 
+  useEffect(() => {
+    function applyHashPurpose() {
+      const raw = window.location.hash.replace(/^#/, "");
+      const [section, query = ""] = raw.split("?");
+      if (section !== "finder") return;
+      const params = new URLSearchParams(query);
+      const nextPurpose = params.get("purpose");
+      if (nextPurpose && purposeOptions.some((item) => item.value === nextPurpose)) {
+        setPurpose(nextPurpose);
+      }
+    }
+    applyHashPurpose();
+    window.addEventListener("hashchange", applyHashPurpose);
+    return () => window.removeEventListener("hashchange", applyHashPurpose);
+  }, []);
+
   const { results, totalMatched } = useMemo(
     () =>
       buildFinderResults({

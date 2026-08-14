@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getDayDetail, shiftDate } from "../lib/calendar";
 import { formatSolarDate } from "../lib/finder";
 import { getAuspiciousHours } from "../lib/hours";
@@ -14,6 +14,14 @@ type Props = {
 
 export default function TodayBanner({ initialDate }: Props) {
   const [currentDate, setCurrentDate] = useState(initialDate ?? new Date());
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+
+  useEffect(() => {
+    const sync = () => setAdvancedOpen(window.innerWidth >= 768);
+    sync();
+    window.addEventListener("resize", sync);
+    return () => window.removeEventListener("resize", sync);
+  }, []);
 
   const detail = useMemo(() => {
     return getDayDetail(
@@ -123,7 +131,11 @@ export default function TodayBanner({ initialDate }: Props) {
 
       <ClashExplain clash={detail.clashExplain} />
 
-      <details className="advanced-details">
+      <details
+        className="advanced-details"
+        open={advancedOpen}
+        onToggle={(e) => setAdvancedOpen(e.currentTarget.open)}
+      >
         <summary>進階資訊（干支、胎神、彭祖）</summary>
         <dl className="today-info-grid">
         <div>

@@ -679,10 +679,6 @@ select {
   text-decoration: none;
 }
 
-.nav-link {
-  /* padding defined in .nav-link block above */
-}
-
 .brand-mark {
   align-items: center;
   background: #a4362b;
@@ -1459,12 +1455,16 @@ select {
 
 .btn-primary,
 .btn-secondary {
+  align-items: center;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  display: inline-flex;
   font-size: 15px;
   font-weight: 800;
+  justify-content: center;
   padding: 12px 24px;
+  text-decoration: none;
 }
 
 .btn-primary {
@@ -2036,7 +2036,7 @@ select {
   color: #5f4631;
   font-size: 13px;
   font-weight: 700;
-  padding: 8px 14px;
+  padding: 8px 14px !important;
 }
 
 .landing-list {

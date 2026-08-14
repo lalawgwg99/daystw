@@ -8,7 +8,7 @@ import type { DateResult } from "../lib/finder";
 import { buildIcs, downloadIcs } from "../lib/ics";
 import { generateId, storage } from "../lib/storage";
 import ClashExplain from "./ClashExplain";
-import TermTooltip from "./TermTooltip";
+import YiJiTag from "./YiJiTag";
 
 type Props = {
   item: DateResult;
@@ -73,11 +73,14 @@ export default function DateResultCard({ item, purpose }: Props) {
 
       <div className="tag-row compact">
         {yiExplained.map(({ term, plain }) => (
-          <TermTooltip key={term} plain={plain} term={term}>
-            <span className={`good-tag ${item.matchedYi.includes(term) ? "highlight-tag" : ""}`}>
-              {term}
-            </span>
-          </TermTooltip>
+          <YiJiTag
+            key={term}
+            compact
+            highlighted={item.matchedYi.includes(term)}
+            kind="yi"
+            plain={plain}
+            term={term}
+          />
         ))}
       </div>
 

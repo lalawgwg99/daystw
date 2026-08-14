@@ -6,7 +6,7 @@ import { buildMonthGrid, getDayDetail, type CalendarDay } from "../lib/calendar"
 import { formatSolarDate } from "../lib/finder";
 import { getAuspiciousHours } from "../lib/hours";
 import ClashExplain from "./ClashExplain";
-import TermTooltip from "./TermTooltip";
+import YiJiTag from "./YiJiTag";
 
 type Props = {
   initialYear?: number;
@@ -209,9 +209,7 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
             {selectedDetail.yiExplained.length > 0 ? (
               <div className="tag-row today-tags">
                 {selectedDetail.yiExplained.map(({ term, plain }) => (
-                  <TermTooltip key={term} plain={plain} term={term}>
-                    <span className="good-tag">{term}</span>
-                  </TermTooltip>
+                  <YiJiTag key={term} kind="yi" plain={plain} term={term} />
                 ))}
               </div>
             ) : (
@@ -224,9 +222,7 @@ export default function MonthCalendar({ initialYear, initialMonth, onSelectDate 
             {selectedDetail.jiExplained.length > 0 ? (
               <div className="tag-row today-tags">
                 {selectedDetail.jiExplained.map(({ term, plain }) => (
-                  <TermTooltip key={term} plain={plain} term={term}>
-                    <span className="bad-tag">{term}</span>
-                  </TermTooltip>
+                  <YiJiTag key={term} kind="ji" plain={plain} term={term} />
                 ))}
               </div>
             ) : (

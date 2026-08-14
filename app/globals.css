@@ -575,11 +575,12 @@ body {
   padding: 10px 12px;
 }
 
-.highlight-tag {
+.highlight-tag,
+.term-chip.highlighted {
   background: #fff1e7;
-  border-color: #eab89a;
+  box-shadow: inset 0 0 0 1px rgba(164, 54, 43, 0.32);
   color: #98362c;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .date-card-meta {
@@ -667,10 +668,11 @@ body {
   margin-top: 10px;
 }
 
+.tag-row.compact .term-chip,
 .tag-row.compact span,
 .tag-row.compact .good-tag {
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 4px 9px;
 }
 
 button,
@@ -819,31 +821,24 @@ select {
 .tag-row span,
 .good-tag,
 .pill-grid span {
-  background: #f3eadb;
-  border: 1px solid #e0d0bc;
-  border-radius: 999px;
-  color: #5f4631;
+  background: var(--surface);
+  border: none;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(164, 54, 43, 0.14);
+  color: #7a2e24;
   display: inline-flex;
   font-size: 13px;
-  font-weight: 700;
-  padding: 6px 9px;
+  font-weight: 600;
+  padding: 6px 11px;
 }
 
 .good-tag {
-  background: #fff1e7;
-  border-color: #eab89a;
-  color: #98362c;
+  color: #7a2e24;
 }
 
 .bad-tag {
-  background: #f5f0ea;
-  border: 1px solid #ddd0c0;
-  border-radius: 999px;
-  color: #5f5146;
-  display: inline-flex;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 6px 9px;
+  box-shadow: inset 0 0 0 1px rgba(92, 80, 72, 0.18);
+  color: #4a4038;
 }
 
 dl {
@@ -1856,33 +1851,79 @@ select {
 }
 
 .term-tooltip-wrap {
-  display: inline-block;
+  display: inline-flex;
   position: relative;
+  vertical-align: top;
 }
 
 .term-tooltip {
-  background: #201b16;
-  border-radius: 8px;
-  bottom: calc(100% + 8px);
-  color: #fff7e8;
+  background: #fffdf8;
+  border-radius: 10px;
+  bottom: calc(100% + 10px);
+  box-shadow:
+    0 10px 28px rgba(66, 39, 17, 0.12),
+    0 0 0 1px rgba(222, 210, 191, 0.9);
+  color: #342b23;
   display: grid;
   gap: 4px;
   left: 50%;
-  min-width: 180px;
-  padding: 10px 12px;
+  max-width: min(240px, 72vw);
+  padding: 10px 12px 11px 14px;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  transform: translateX(-50%);
+  white-space: normal;
+  width: max-content;
+  z-index: 40;
+}
+
+.term-tooltip::before {
+  background: var(--tip-accent, #a4362b);
+  border-radius: 10px 0 0 10px;
+  bottom: 8px;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: 8px;
+  width: 3px;
+}
+
+.term-tooltip::after {
+  border-color: #fffdf8 transparent transparent transparent;
+  border-style: solid;
+  border-width: 7px 7px 0;
+  bottom: -6px;
+  content: "";
+  filter: drop-shadow(0 1px 0 rgba(222, 210, 191, 0.9));
+  left: 50%;
   position: absolute;
   transform: translateX(-50%);
-  z-index: 20;
 }
 
-.term-tooltip strong {
+.term-tooltip-yi {
+  --tip-accent: #a4362b;
+}
+
+.term-tooltip-ji {
+  --tip-accent: #5c5048;
+}
+
+.term-tooltip-head {
+  color: #201b16;
+  display: block;
   font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+  writing-mode: horizontal-tb;
 }
 
-.term-tooltip span {
+.term-tooltip-body {
+  color: #6e6257;
+  display: block;
   font-size: 12px;
-  line-height: 1.45;
-  opacity: 0.92;
+  font-weight: 500;
+  line-height: 1.55;
 }
 
 .zodiac-chips {
@@ -3157,7 +3198,7 @@ html.elder-mode .festival-card h3 {
   border-radius: var(--radius);
   display: grid;
   gap: 0;
-  overflow: hidden;
+  overflow: visible;
   padding: 0;
 }
 
@@ -3187,8 +3228,8 @@ html.elder-mode .festival-card h3 {
 }
 
 .almanac-chip-icon.tone-clash { background: linear-gradient(145deg, #6aad7e, #4d8a60); }
-.almanac-chip-icon.tone-yi { background: linear-gradient(145deg, #d95686, #b83a66); }
-.almanac-chip-icon.tone-ji { background: linear-gradient(145deg, #4a6a94, #2f4a6e); }
+.almanac-chip-icon.tone-yi { background: linear-gradient(145deg, #c45c4a, #a4362b); }
+.almanac-chip-icon.tone-ji { background: linear-gradient(145deg, #6b7280, #4b5563); }
 .almanac-chip-icon.tone-sha { background: linear-gradient(145deg, #5c5048, #3a322c); }
 .almanac-chip-icon.tone-hour { background: linear-gradient(145deg, #ef8f45, #cf6a22); }
 
@@ -3197,41 +3238,82 @@ html.elder-mode .festival-card h3 {
   padding-top: 6px;
 }
 
-/* ── 宜忌標籤（icon + 文字） ── */
+/* ── 宜忌標籤（紙質印章風） ── */
 
 .yiji-tag-row {
-  gap: 8px;
+  gap: 6px;
   margin-top: 0;
 }
 
-.yiji-tag {
-  align-items: center;
-  border-radius: 999px;
+.term-chip {
+  background: var(--surface);
+  border: none;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--chip-line, rgba(164, 54, 43, 0.14));
+  color: var(--chip-text, #5f4631);
   cursor: help;
   display: inline-flex;
   font-size: 13px;
-  font-weight: 700;
-  gap: 5px;
-  min-height: 34px;
-  padding: 6px 12px 6px 10px;
-  transition: transform 0.12s, box-shadow 0.12s;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  padding: 6px 11px;
+  position: relative;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
 }
 
-.yiji-tag:hover {
-  box-shadow: 0 2px 8px rgba(66, 39, 17, 0.12);
+.term-chip::before {
+  background: var(--chip-accent, #a4362b);
+  border-radius: 6px 0 0 6px;
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 3px;
+}
+
+.term-chip:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--chip-line, rgba(164, 54, 43, 0.14)), 0 0 0 2px rgba(164, 54, 43, 0.22);
+  outline: none;
+}
+
+.term-chip:hover {
+  background: var(--chip-hover, #fff9f5);
+  box-shadow: inset 0 0 0 1px var(--chip-line-hover, rgba(164, 54, 43, 0.22)), 0 2px 6px rgba(66, 39, 17, 0.06);
   transform: translateY(-1px);
 }
 
-.yiji-tag.yi {
-  background: linear-gradient(180deg, #fff0f5 0%, #fce4ec 100%);
-  border: 1px solid #f48fb1;
-  color: #ad1457;
+.term-chip-yi {
+  --chip-accent: #a4362b;
+  --chip-hover: #fff9f5;
+  --chip-line: rgba(164, 54, 43, 0.16);
+  --chip-line-hover: rgba(164, 54, 43, 0.28);
+  --chip-text: #7a2e24;
 }
 
-.yiji-tag.ji {
-  background: linear-gradient(180deg, #eef4fb 0%, #e3edf7 100%);
-  border: 1px solid #90caf9;
-  color: #1565c0;
+.term-chip-ji {
+  --chip-accent: #5c5048;
+  --chip-hover: #f9f7f4;
+  --chip-line: rgba(92, 80, 72, 0.18);
+  --chip-line-hover: rgba(92, 80, 72, 0.3);
+  --chip-text: #4a4038;
+}
+
+.term-chip.highlighted {
+  background: #fff1e7;
+  box-shadow: inset 0 0 0 1px rgba(164, 54, 43, 0.32);
+  color: #98362c;
+  font-weight: 700;
+}
+
+.term-chip.compact {
+  font-size: 12px;
+  padding: 4px 9px;
+}
+
+.term-chip.compact::before {
+  width: 2px;
 }
 
 /* ── 吉時地支 pill ── */
@@ -3546,24 +3628,7 @@ html.elder-mode .festival-card h3 {
   line-height: 1.55;
   margin: 0;
   min-width: 0;
-}
-
-.almanac-chip-content .good-tag {
-  background: #fce4ec;
-  border: 1px solid #f8bbd0;
-  color: #ad1457;
-  font-size: 13px;
-  min-height: 32px;
-  padding: 5px 10px;
-}
-
-.almanac-chip-content .bad-tag {
-  background: #e3edf7;
-  border: 1px solid #bbdefb;
-  color: #1565c0;
-  font-size: 13px;
-  min-height: 32px;
-  padding: 5px 10px;
+  overflow: visible;
 }
 
 .almanac-date-card-top {
@@ -3870,8 +3935,7 @@ html.elder-mode .festival-card h3 {
   color: #8b3a2f;
 }
 
-.elder-mode .almanac-chip-content .good-tag,
-.elder-mode .almanac-chip-content .bad-tag {
+.elder-mode .term-chip {
   font-size: 15px;
   min-height: 40px;
   padding: 8px 12px;

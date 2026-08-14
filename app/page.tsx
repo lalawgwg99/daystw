@@ -9,7 +9,8 @@ import SavedDatesPanel from "./components/SavedDatesPanel";
 import SectionBlock from "./components/SectionBlock";
 import ServicePanel from "./components/ServicePanel";
 import SiteHeader from "./components/SiteHeader";
-import { applyStoredSettings, GlossaryPanel } from "./components/SettingsBar";
+import GlossaryWiki from "./components/GlossaryWiki";
+import { applyStoredSettings } from "./components/SettingsBar";
 import TodayBanner from "./components/TodayBanner";
 import ZodiacFortune from "./components/ZodiacFortune";
 import { notifyDueReminders, registerServiceWorker } from "./lib/storage";
@@ -28,16 +29,16 @@ export default function Home() {
       <SiteHeader onSettingsChange={() => setSettingsVersion((v) => v + 1)} />
 
       <div className="page-container">
-        <HeroStrip />
-
-        <div className="today-section">
+        <div className="today-section today-section-first">
           <TodayBanner />
         </div>
+
+        <HeroStrip />
 
         <FinderSection settingsVersion={settingsVersion} />
 
         <SectionBlock
-          desc="點選日期查看宜忌、節氣與國定假日。"
+          desc="每格顯示農曆、宜忌摘要；點選日期右側看完整說明。"
           id="month-calendar"
           title="月曆總覽"
         >
@@ -63,7 +64,7 @@ export default function Home() {
         </SectionBlock>
 
         <SectionBlock id="glossary" variant="band">
-          <GlossaryPanel embedded />
+          <GlossaryWiki preview />
         </SectionBlock>
       </div>
 

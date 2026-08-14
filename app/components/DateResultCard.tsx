@@ -51,10 +51,12 @@ export default function DateResultCard({ item, purpose }: Props) {
   }
 
   return (
-    <article className="date-card compact">
+    <article className="date-card compact stretch">
       <div className="date-topline">
         <span>{item.iso}</span>
-        <strong>{item.isWeekend ? "週末" : "平日"}</strong>
+        <strong className={item.isWeekend ? "weekend-badge" : "weekday-badge"}>
+          {item.isWeekend ? "週末" : "平日"}
+        </strong>
       </div>
       <h2>
         {item.month}月{item.day}日

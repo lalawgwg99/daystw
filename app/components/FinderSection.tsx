@@ -78,16 +78,15 @@ export default function FinderSection({ settingsVersion = 0 }: Props) {
     <section className="section-block section-finder" id="finder">
       <div className="section-inner">
         <header className="section-head-block">
-          <h2 className="section-title">推薦吉日</h2>
-          <p className="section-desc">
-            選用途與條件，依黃曆宜忌與沖煞自動篩選。
+          <div className="finder-head-row">
+            <h2 className="section-title">推薦吉日</h2>
             {totalMatched > 0 && (
-              <span className="results-count inline">
-                {" "}
+              <span className="results-count">
                 共 {totalMatched} 個{activePurpose?.shortLabel ?? ""}吉日
               </span>
             )}
-          </p>
+          </div>
+          <p className="section-desc">選用途與條件，依黃曆宜忌與沖煞自動篩選，結果依日期由近到遠排列。</p>
         </header>
 
         <div className="finder-layout">

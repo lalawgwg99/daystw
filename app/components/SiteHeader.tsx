@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import { requestNotificationPermission, storage } from "../lib/storage";
 
 const navItems = [
-  { href: "#finder", label: "找吉日" },
   { href: "#calendar", label: "今日" },
+  { href: "#finder", label: "找吉日" },
   { href: "#month-calendar", label: "月曆" },
+  { href: "/wiki", label: "百科", external: true },
   { href: "#services", label: "民俗" },
 ];
 
@@ -21,7 +22,7 @@ export default function SiteHeader({ onSettingsChange }: Props) {
   const [settings, setSettings] = useState(() => storage.getSettings());
 
   useEffect(() => {
-    const sections = ["finder", "calendar", "month-calendar", "zodiac", "festival", "services"];
+    const sections = ["calendar", "finder", "month-calendar", "zodiac", "festival", "services"];
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -61,7 +62,7 @@ export default function SiteHeader({ onSettingsChange }: Props) {
         <nav aria-label="主要導覽" className="site-nav desktop-only">
           {navItems.map((item) => (
             <a
-              className={`nav-link ${active === item.href.slice(1) ? "active" : ""}`}
+              className={`nav-link ${!item.external && active === item.href.slice(1) ? "active" : ""}`}
               href={item.href}
               key={item.href}
             >
@@ -119,8 +120,11 @@ export default function SiteHeader({ onSettingsChange }: Props) {
           <a className="nav-link" href="#saved" onClick={() => setMenuOpen(false)}>
             收藏
           </a>
+          <a className="nav-link" href="/wiki" onClick={() => setMenuOpen(false)}>
+            民俗百科
+          </a>
           <a className="nav-link" href="#glossary" onClick={() => setMenuOpen(false)}>
-            <BookOpen size={14} /> 術語
+            <BookOpen size={14} /> 百科摘要
           </a>
         </nav>
       )}

@@ -18,6 +18,8 @@ export type CalendarDay = {
   isWeekend: boolean;
   isHuangDao: boolean;
   yiPreview: string[];
+  jiPreview: string[];
+  jianChu: string;
   clash: string;
   isBadDay: boolean;
   badReasons: string[];
@@ -27,18 +29,23 @@ export type DayDetail = {
   iso: string;
   solarDate: string;
   lunarText: string;
+  dayGanZhi: string;
   yi: string[];
   ji: string[];
   yiExplained: { term: string; plain: string }[];
+  jiExplained: { term: string; plain: string }[];
   clash: string;
   sha: string;
   tai: string;
   pengGan: string;
   pengZhi: string;
   tianShen: string;
+  jianChu: string;
+  naYin: string;
   jieQi: string;
   holidayName?: string;
   isHuangDao: boolean;
+  isBadDay: boolean;
   badReasons: string[];
 };
 
@@ -55,25 +62,33 @@ export function getDayDetail(year: number, month: number, day: number): DayDetai
   const holiday = getHoliday(iso);
   const bad = getBadDayInfo(year, month, day);
 
+  const explainItems = (items: string[], fallback: string) =>
+    items.map((term) => ({
+      term,
+      plain: explainTerm(term) ?? fallback,
+    }));
+
   return {
     iso,
     solarDate: iso,
     lunarText: formatLunarDate(lunar.toString()),
+    dayGanZhi: toTaiwanTraditional(lunar.getDayInGanZhi()),
     yi,
     ji,
-    yiExplained: yi.slice(0, 8).map((term) => ({
-      term,
-      plain: explainTerm(term) ?? "傳統黃曆記載的宜行之事",
-    })),
+    yiExplained: explainItems(yi, "傳統黃曆記載的宜行之事"),
+    jiExplained: explainItems(ji, "傳統黃曆記載的忌行之事"),
     clash: toTaiwanTraditional(lunar.getDayChongDesc()),
     sha: toTaiwanTraditional(lunar.getDaySha()),
     tai: toTaiwanTraditional(lunar.getDayPositionTai()),
     pengGan: toTaiwanTraditional(lunar.getPengZuGan()),
     pengZhi: toTaiwanTraditional(lunar.getPengZuZhi()),
     tianShen: `${toTaiwanTraditional(lunar.getDayTianShen())}・${toTaiwanTraditional(lunar.getDayTianShenType())}`,
+    jianChu: toTaiwanTraditional(lunar.getZhiXing()),
+    naYin: toTaiwanTraditional(lunar.getDayNaYin()),
     jieQi: toTaiwanTraditional(lunar.getJieQi() || ""),
     holidayName: holiday?.name,
     isHuangDao: isHuangDao(lunar),
+    isBadDay: bad.isBad,
     badReasons: bad.reasons,
   };
 }
@@ -94,6 +109,7 @@ export function buildMonthGrid(year: number, month: number): CalendarDay[] {
     const iso = formatSolarDate(date);
     const lunar = getLunarForDate(y, m, d);
     const yi = lunar.getDayYi().map((item: string) => toTaiwanTraditional(item));
+    const ji = lunar.getDayJi().map((item: string) => toTaiwanTraditional(item));
     const holiday = getHoliday(iso);
     const bad = getBadDayInfo(y, m, d);
     const lunarDayNum = lunar.getDay();
@@ -115,6 +131,8 @@ export function buildMonthGrid(year: number, month: number): CalendarDay[] {
       isWeekend: date.getDay() === 0 || date.getDay() === 6,
       isHuangDao: isHuangDao(lunar),
       yiPreview: yi.slice(0, 2),
+      jiPreview: ji.slice(0, 1),
+      jianChu: toTaiwanTraditional(lunar.getZhiXing()),
       clash: toTaiwanTraditional(lunar.getDayChongDesc()),
       isBadDay: bad.isBad,
       badReasons: bad.reasons,

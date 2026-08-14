@@ -42,6 +42,8 @@ test("renders SEO landing page for move-in dates", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /2026[\s\S]*搬家入宅[\s\S]*吉日/);
+  assert.match(html, /href="\/"[\s\S]*返回吉日通/);
+  assert.match(html, /site-brand/);
 });
 
 test("keeps starter preview code out of the product source", async () => {

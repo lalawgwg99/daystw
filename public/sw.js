@@ -1,5 +1,5 @@
-const CACHE = "daystw-v1";
-const ASSETS = ["/", "/manifest.json", "/favicon.svg"];
+const CACHE = "daystw-v2";
+const ASSETS = ["/manifest.json", "/favicon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)));
@@ -17,6 +17,15 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+
+  // 頁面導覽一律走網路，避免快取舊首頁導致無法返回
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(event.request)),
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request)),
   );

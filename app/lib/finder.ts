@@ -192,7 +192,12 @@ export function buildFinderResults(options: FinderOptions): { results: DateResul
         !item.weekendBlocked &&
         !item.badBlocked,
     )
-    .sort((a, b) => b.score - a.score);
+    .sort((a, b) => {
+      const dateA = new Date(a.year, a.month - 1, a.day).getTime();
+      const dateB = new Date(b.year, b.month - 1, b.day).getTime();
+      if (dateA !== dateB) return dateA - dateB;
+      return b.score - a.score;
+    });
 
   const totalMatched = scored.length;
 

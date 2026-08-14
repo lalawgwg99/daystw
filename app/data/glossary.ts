@@ -1,4 +1,6 @@
-/** 宜忌白話解釋與術語小百科 */
+/** 宜忌白話解釋（tooltip 快速對照） */
+
+import { getWikiSummary } from "./wiki-articles";
 
 export type GlossaryEntry = {
   term: string;
@@ -40,12 +42,6 @@ export const glossaryEntries: GlossaryEntry[] = [
   { term: "破屋", plain: "拆除舊屋", category: "ji" },
   { term: "壞垣", plain: "拆牆、拆除圍牆", category: "ji" },
   { term: "詞訟", plain: "打官司、訴訟", category: "ji" },
-  { term: "嫁娶", plain: "某些日子忌嫁娶則不宜結婚", category: "ji" },
-  { term: "動土", plain: "某些日子忌動土則不宜開工", category: "ji" },
-  { term: "安葬", plain: "某些日子忌安葬則不宜下葬", category: "ji" },
-  { term: "開市", plain: "某些日子忌開市則不宜開業", category: "ji" },
-  { term: "入宅", plain: "某些日子忌入宅則不宜搬家", category: "ji" },
-  { term: "出行", plain: "某些日子忌出行則不宜遠行", category: "ji" },
   { term: "胎神", plain: "傳統認為胎神所在方位，動土、敲打該處恐傷胎", category: "term" },
   { term: "彭祖百忌", plain: "每日干支的禁忌簡述，如「甲不開倉」等", category: "term" },
   { term: "沖煞", plain: "該日地支與某生肖相沖，該生肖者宜避開重要事", category: "term" },
@@ -70,6 +66,8 @@ for (const entry of glossaryEntries) {
 /** 取得宜忌或術語的白話說明 */
 export function explainTerm(term: string): string | undefined {
   const normalized = term.trim();
+  const wiki = getWikiSummary(normalized);
+  if (wiki) return wiki;
   if (lookup.has(normalized)) return lookup.get(normalized);
   for (const [key, plain] of lookup) {
     if (normalized.includes(key) || key.includes(normalized)) return plain;
@@ -84,4 +82,5 @@ export function explainTerms(terms: string[]): { term: string; plain: string }[]
   }));
 }
 
+/** @deprecated 請使用 wiki 條目 */
 export const termEntries = glossaryEntries.filter((e) => e.category === "term");

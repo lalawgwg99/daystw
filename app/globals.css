@@ -84,6 +84,10 @@ body {
   margin-top: 20px;
 }
 
+.today-section-first {
+  margin-top: 12px;
+}
+
 .site-header {
   backdrop-filter: blur(10px);
   background: rgba(255, 250, 241, 0.92);
@@ -201,6 +205,10 @@ body {
   text-align: center;
 }
 
+.hero-strip.compact {
+  padding: 16px 0 4px;
+}
+
 .hero-eyebrow {
   color: var(--accent);
   font-size: 13px;
@@ -224,6 +232,14 @@ body {
   line-height: 1.6;
   margin: 12px auto 18px;
   max-width: 36rem;
+}
+
+.hero-compact-text {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 auto 12px;
+  max-width: 40rem;
 }
 
 .hero-quick-links {
@@ -366,13 +382,32 @@ body {
 
 @media (min-width: 900px) {
   .finder-layout {
-    grid-template-columns: 300px 1fr;
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) 300px;
+  }
+
+  .finder-sidebar {
+    order: 2;
+  }
+
+  .results-area {
+    order: 1;
   }
 }
 
-.results-count.inline {
+.finder-head-row {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+}
+
+.finder-head-row .results-count {
   color: var(--accent);
+  font-size: 15px;
   font-weight: 800;
+  white-space: nowrap;
 }
 
 .form-actions.center {
@@ -787,6 +822,17 @@ select {
   color: #98362c;
 }
 
+.bad-tag {
+  background: #f5f0ea;
+  border: 1px solid #ddd0c0;
+  border-radius: 999px;
+  color: #5f5146;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 9px;
+}
+
 dl {
   display: grid;
   gap: 10px;
@@ -852,9 +898,20 @@ select {
 .results-grid,
 .festival-grid,
 .service-grid {
+  align-items: stretch;
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.date-card.stretch {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.date-card.stretch .card-actions {
+  margin-top: auto;
 }
 
 .date-card,
@@ -880,6 +937,14 @@ select {
 }
 
 .date-topline strong {
+  font-weight: 800;
+}
+
+.weekday-badge {
+  color: #6e6257;
+}
+
+.weekend-badge {
   color: #a4362b;
 }
 
@@ -1676,19 +1741,11 @@ select {
   grid-template-columns: auto 1fr auto;
 }
 
-.month-calendar {
-  background: #fffdf8;
-  border: 1px solid #ded2bf;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(66, 39, 17, 0.06);
-  padding: 16px;
-}
-
 .calendar-toolbar {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .calendar-weekdays,
@@ -1703,18 +1760,6 @@ select {
   font-size: 12px;
   font-weight: 800;
   text-align: center;
-}
-
-.calendar-cell {
-  background: #fffaf1;
-  border: 1px solid #eadfce;
-  border-radius: 8px;
-  cursor: pointer;
-  display: grid;
-  gap: 2px;
-  min-height: 72px;
-  padding: 6px;
-  text-align: left;
 }
 
 .calendar-cell.other-month {
@@ -1748,7 +1793,6 @@ select {
 }
 
 .cell-lunar,
-.cell-holiday,
 .cell-makeup {
   color: #6e6257;
   font-size: 10px;
@@ -1765,7 +1809,7 @@ select {
   flex-wrap: wrap;
   font-size: 12px;
   gap: 12px;
-  margin: 12px 0;
+  margin: 12px 0 0;
 }
 
 .calendar-legend .dot {
@@ -1786,11 +1830,6 @@ select {
 
 .calendar-legend .dot.bad {
   background: #888;
-}
-
-.calendar-detail {
-  border-top: 1px solid #eadfce;
-  padding-top: 14px;
 }
 
 .term-tooltip-wrap {
@@ -1970,8 +2009,41 @@ select {
 }
 
 .back-link {
+  color: var(--accent);
   display: inline-block;
+  font-size: 14px;
+  font-weight: 800;
   margin-bottom: 16px;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  background: var(--accent-soft);
+}
+
+.back-link.prominent {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+}
+
+.landing-page .section-title {
+  margin-top: 4px;
+}
+
+.landing-actions {
+  margin-top: 20px;
+}
+
+.site-brand {
+  color: inherit;
+  padding: 0;
+  text-decoration: none;
+}
+
+.site-nav .nav-link {
+  padding: 8px 12px;
 }
 
 .inline-link {
@@ -2067,6 +2139,627 @@ html.elder-mode .festival-card h3 {
   line-height: 1.45;
 }
 
-.temple-note.block {
-  margin: 10px 0 0;
+.festival-card-head {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.festival-card-head h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.festival-tag {
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 8px;
+}
+
+.festival-tag.tag-folk {
+  background: #fff1e7;
+  color: #98362c;
+}
+
+.festival-tag.tag-deity {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.festival-tag.tag-jieqi {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.festival-tag.tag-worship {
+  background: #f3eadb;
+  color: #5f4631;
+}
+
+.festival-tag.tag-national {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.festival-deity {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.festival-toolbar {
+  margin-bottom: 12px;
+}
+
+.festival-filters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.month-calendar {
+  background: #fffdf8;
+  border: 1px solid #ded2bf;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.calendar-toolbar-center {
+  text-align: center;
+}
+
+.calendar-toolbar-center strong {
+  display: block;
+  font-size: 18px;
+}
+
+.calendar-month-summary {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.calendar-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.month-calendar-layout {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .month-calendar-layout {
+    align-items: start;
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  }
+}
+
+.month-calendar-grid-wrap {
+  min-width: 0;
+}
+
+.calendar-weekdays span.weekend-head {
+  color: #a4362b;
+}
+
+.calendar-cell {
+  background: #fffaf1;
+  border: 1px solid #eadfce;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 88px;
+  padding: 6px;
+  text-align: left;
+}
+
+.calendar-cell.weekend .cell-solar {
+  color: #a4362b;
+}
+
+.cell-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell-badge {
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 2px 5px;
+}
+
+.cell-badge.good {
+  background: #fff1e7;
+  color: #98362c;
+}
+
+.cell-badge.neutral {
+  background: #f3eadb;
+  color: #6e6257;
+}
+
+.cell-yi {
+  color: #98362c;
+  display: -webkit-box;
+  font-size: 10px;
+  font-weight: 700;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-height: 1.25;
+  overflow: hidden;
+}
+
+.cell-ji {
+  color: #6e6257;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.cell-holiday {
+  color: #a4362b;
+  display: -webkit-box;
+  font-size: 10px;
+  font-weight: 800;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.cell-bad-tag {
+  color: #888;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.calendar-legend .dot.yi {
+  background: #98362c;
+}
+
+.calendar-detail-panel {
+  background: linear-gradient(145deg, #fffdf8 0%, #fff6eb 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  position: sticky;
+  top: calc(var(--header-h) + 12px);
+}
+
+.calendar-detail-head {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.calendar-detail-eyebrow {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+
+.calendar-detail-head h3 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.calendar-detail-solar,
+.calendar-detail-lunar {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 4px 0 0;
+}
+
+.calendar-detail-block {
+  margin-top: 14px;
+}
+
+.calendar-detail-block h4 {
+  color: #8b3a2f;
+  font-size: 13px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.small-btn {
+  font-size: 12px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+/* ── 今日黃曆主面板 ── */
+
+.today-dashboard {
+  background: linear-gradient(145deg, #fffdf8 0%, #fff6eb 100%);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  box-shadow: var(--shadow);
+  padding: 20px 18px;
+}
+
+.today-dashboard-nav {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: auto 1fr auto;
+}
+
+.today-dashboard-eyebrow {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+
+.today-dashboard-date {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 900;
+  gap: 8px;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.today-dashboard-date span {
+  color: var(--text-muted);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.today-dashboard-solar {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+
+.today-dashboard-lunar {
+  color: #342b23;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 14px 0 10px;
+  text-align: center;
+}
+
+.today-dashboard-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.today-dashboard-badges.compact {
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+.day-type-badge {
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 10px;
+}
+
+.day-type-badge.weekday {
+  background: #f3eadb;
+  color: #6e6257;
+}
+
+.day-type-badge.weekend {
+  background: #fff1e7;
+  color: #98362c;
+}
+
+.day-type-badge.huangdao {
+  background: #fff8e1;
+  color: #8b6914;
+}
+
+.day-type-badge.heidao {
+  background: #f5f0ea;
+  color: #6e6257;
+}
+
+.day-type-badge.jieqi {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.day-type-badge.holiday {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.day-type-badge.warning {
+  background: #faf5f5;
+  color: #888;
+}
+
+.today-dashboard-main {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .today-dashboard-main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.today-panel-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.today-panel-block h2 {
+  color: #8b3a2f;
+  font-size: 15px;
+  font-weight: 900;
+  margin: 0 0 10px;
+}
+
+.today-tags {
+  gap: 8px;
+}
+
+.today-empty-note {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.today-hour-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hour-chip.large {
+  font-size: 13px;
+  padding: 6px 10px;
+}
+
+.today-info-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 16px;
+}
+
+.today-info-grid.compact {
+  margin-top: 14px;
+}
+
+.today-info-grid div {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.today-info-grid dt {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.today-info-grid dd {
+  margin: 0;
+}
+
+.today-info-wide {
+  grid-column: 1 / -1;
+}
+
+.today-info-wide.warning dd {
+  color: #888;
+}
+
+.today-dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.section-desc strong {
+  color: var(--accent);
+}
+
+/* ── 民俗百科 ── */
+
+.wiki-section {
+  scroll-margin-top: calc(var(--header-h) + 12px);
+}
+
+.wiki-search-bar {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 0 14px;
+}
+
+.wiki-search-bar input {
+  background: transparent;
+  border: none;
+  flex: 1;
+  min-height: 48px;
+  padding: 0;
+}
+
+.wiki-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.wiki-index-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.wiki-index-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.wiki-index-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.wiki-index-card h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.wiki-index-card p {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.wiki-read-more {
+  align-items: center;
+  color: var(--accent);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 2px;
+}
+
+.tag-wiki-calendar { background: #e3f2fd; color: #1565c0; }
+.tag-wiki-almanac { background: #fff1e7; color: #98362c; }
+.tag-wiki-worship { background: #f3eadb; color: #5f4631; }
+.tag-wiki-deity { background: #e8f5e9; color: #2e7d32; }
+.tag-wiki-fortune { background: #f3e5f5; color: #7b1fa2; }
+.tag-wiki-yiji { background: #fce4ec; color: #c62828; }
+
+.wiki-page-header {
+  margin-bottom: 8px;
+}
+
+.wiki-breadcrumb {
+  color: var(--text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.wiki-breadcrumb a {
+  color: var(--accent);
+  padding: 0;
+}
+
+.wiki-article-header h1 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin: 8px 0;
+}
+
+.wiki-aliases {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.wiki-lead {
+  font-size: 17px;
+  line-height: 1.65;
+  margin: 16px 0;
+}
+
+.wiki-toc {
+  background: var(--surface-muted);
+  border-radius: var(--radius);
+  margin: 16px 0;
+  padding: 14px 16px;
+}
+
+.wiki-toc ol {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+
+.wiki-body h2 {
+  font-size: 22px;
+  margin: 24px 0 8px;
+}
+
+.wiki-related {
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+  padding-top: 16px;
+}
+
+.wiki-related ul {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.wiki-related li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.wiki-related a {
+  color: var(--accent);
+  font-weight: 800;
+  padding: 0;
+}
+
+.wiki-related span {
+  color: var(--text-muted);
+  display: block;
+  font-size: 13px;
+  margin-top: 4px;
 }

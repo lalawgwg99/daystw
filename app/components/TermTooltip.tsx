@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 type Props = {
   term: string;
@@ -12,6 +12,20 @@ type Props = {
 export default function TermTooltip({ term, plain, kind, children }: Props) {
   const [open, setOpen] = useState(false);
   const tooltipId = useId();
+  const tooltipRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!open || !tooltipRef.current) return;
+
+    const tooltip = tooltipRef.current;
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const vw = window.innerWidth;
+
+    let shiftX = 0;
+    if (tooltipRect.left < 8) shiftX += 8 - tooltipRect.left;
+    if (tooltipRect.right + shiftX > vw - 8) shiftX -= tooltipRect.right + shiftX - (vw - 8);
+    tooltip.style.transform = `translateX(calc(-50% + ${shiftX}px))`;
+  }, [open]);
 
   return (
     <span
@@ -27,6 +41,7 @@ export default function TermTooltip({ term, plain, kind, children }: Props) {
         <span
           className={`term-tooltip${kind ? ` term-tooltip-${kind}` : ""}`}
           id={tooltipId}
+          ref={tooltipRef}
           role="tooltip"
         >
           <span className="term-tooltip-head">{term}</span>

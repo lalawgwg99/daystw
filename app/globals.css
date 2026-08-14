@@ -1867,7 +1867,7 @@ select {
   display: grid;
   gap: 4px;
   left: 50%;
-  max-width: min(240px, 72vw);
+  max-width: min(240px, calc(100vw - 16px));
   padding: 10px 12px 11px 14px;
   pointer-events: none;
   position: absolute;
@@ -3479,11 +3479,11 @@ html.elder-mode .festival-card h3 {
 }
 
 .almanac-cell-yi {
-  color: #ad1457;
+  color: #a4362b;
 }
 
 .almanac-cell-ji {
-  color: #1565c0;
+  color: #5c5048;
 }
 
 .almanac-cell.huangdao {
@@ -4385,8 +4385,12 @@ html.elder-mode .festival-card h3 {
   }
 
   .almanac-cell {
-    min-height: 52px;
+    min-height: 82px;
     padding: 5px 2px;
+  }
+
+  .almanac-cell-zodiac {
+    display: none;
   }
 
   .almanac-cell-solar {

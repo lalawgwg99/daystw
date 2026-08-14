@@ -1314,3 +1314,434 @@ select {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── Calendar, settings, glossary, elder mode ── */
+
+.settings-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.settings-btn {
+  align-items: center;
+  background: #f3eadb;
+  border: 1px solid #e0d0bc;
+  border-radius: 999px;
+  color: #5f4631;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 6px;
+  padding: 8px 14px;
+}
+
+.settings-btn.active {
+  background: #a4362b;
+  border-color: #a4362b;
+  color: #fff7e8;
+}
+
+.today-banner-nav {
+  align-items: stretch;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: auto 1fr auto;
+}
+
+.month-calendar {
+  background: #fffdf8;
+  border: 1px solid #ded2bf;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(66, 39, 17, 0.06);
+  padding: 16px;
+}
+
+.calendar-toolbar {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.calendar-weekdays,
+.calendar-grid {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-weekdays span {
+  color: #6e6257;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.calendar-cell {
+  background: #fffaf1;
+  border: 1px solid #eadfce;
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  gap: 2px;
+  min-height: 72px;
+  padding: 6px;
+  text-align: left;
+}
+
+.calendar-cell.other-month {
+  opacity: 0.45;
+}
+
+.calendar-cell.today {
+  border-color: #a4362b;
+}
+
+.calendar-cell.selected {
+  background: #fff1e7;
+  border-color: #a4362b;
+}
+
+.calendar-cell.holiday .cell-solar {
+  color: #a4362b;
+}
+
+.calendar-cell.huangdao {
+  box-shadow: inset 0 0 0 2px rgba(212, 175, 55, 0.35);
+}
+
+.calendar-cell.bad-day {
+  background: #faf5f5;
+}
+
+.cell-solar {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.cell-lunar,
+.cell-holiday,
+.cell-makeup {
+  color: #6e6257;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.cell-makeup {
+  color: #8b6914;
+}
+
+.calendar-legend {
+  color: #6e6257;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.calendar-legend .dot {
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  margin-right: 4px;
+  width: 8px;
+}
+
+.calendar-legend .dot.huangdao {
+  background: #d4af37;
+}
+
+.calendar-legend .dot.holiday {
+  background: #a4362b;
+}
+
+.calendar-legend .dot.bad {
+  background: #888;
+}
+
+.calendar-detail {
+  border-top: 1px solid #eadfce;
+  padding-top: 14px;
+}
+
+.term-tooltip-wrap {
+  display: inline-block;
+  position: relative;
+}
+
+.term-tooltip {
+  background: #201b16;
+  border-radius: 8px;
+  bottom: calc(100% + 8px);
+  color: #fff7e8;
+  display: grid;
+  gap: 4px;
+  left: 50%;
+  min-width: 180px;
+  padding: 10px 12px;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.term-tooltip strong {
+  font-size: 13px;
+}
+
+.term-tooltip span {
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+.zodiac-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.zodiac-chips.compact {
+  margin-top: 8px;
+}
+
+.purpose-chip.small {
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+.field-label {
+  color: #5f5146;
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.fortune-card,
+.zodiac-fortune {
+  background: #fffdf8;
+  border: 1px solid #ded2bf;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.fortune-card h3 {
+  font-size: 20px;
+  margin: 0 0 8px;
+}
+
+.fortune-tip {
+  color: #6e6257;
+  font-size: 14px;
+}
+
+.hour-row {
+  color: #5f4631;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.hour-chip {
+  background: #f3eadb;
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 4px 0 0;
+  padding: 4px 8px;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.icon-action {
+  align-items: center;
+  background: none;
+  border: 1px solid #e0d0bc;
+  border-radius: 999px;
+  color: #5f4631;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 4px;
+  padding: 6px 10px;
+}
+
+.icon-action:disabled {
+  opacity: 0.6;
+}
+
+.glossary-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.glossary-card {
+  background: #fffdf8;
+  border: 1px solid #ded2bf;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.glossary-card strong {
+  color: #8b3a2f;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.glossary-card p {
+  color: #6e6257;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.holiday-badge {
+  background: #fff1e7;
+  border-radius: 999px;
+  color: #98362c;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  padding: 4px 10px;
+}
+
+.form-actions.left {
+  justify-content: flex-start;
+}
+
+.empty-state.compact {
+  min-height: 120px;
+}
+
+.site-footer {
+  background: #efe6d5;
+  border-top: 1px solid #ded2bf;
+  color: #6e6257;
+  font-size: 14px;
+}
+
+.seo-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.landing-list {
+  display: grid;
+  gap: 14px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.inline-link {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+html.elder-mode {
+  font-size: 18px;
+}
+
+html.elder-mode .purpose-chip,
+html.elder-mode .settings-btn,
+html.elder-mode .calendar-cell {
+  min-height: 48px;
+}
+
+html.elder-mode .section-title {
+  font-size: 26px;
+}
+
+html.elder-mode .date-card h2,
+html.elder-mode .festival-card h3 {
+  font-size: 32px;
+}
+
+.view-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.temple-list-block {
+  background: #fffaf1;
+  border: 1px solid #e0d0bc;
+  border-radius: 8px;
+  margin-top: 12px;
+  padding: 12px;
+}
+
+.temple-list-title {
+  align-items: center;
+  color: #8b3a2f;
+  display: flex;
+  font-size: 13px;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.temple-list {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.temple-list li {
+  border-top: 1px solid #eadfce;
+  display: grid;
+  gap: 2px;
+  padding-top: 8px;
+}
+
+.temple-list li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.temple-name {
+  color: #201b16;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.temple-meta {
+  color: #8b3a2f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.temple-address {
+  color: #6e6257;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.temple-note {
+  color: #6e6257;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.temple-note.block {
+  margin: 10px 0 0;
+}

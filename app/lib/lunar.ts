@@ -59,8 +59,8 @@ export function buildBirthChart(
   const currentYearPillar = currentLunar.getYearInGanZhi();
 
   const zodiacList = ["鼠", "牛", "虎", "兔", "龍", "蛇", "馬", "羊", "猴", "雞", "狗", "豬"];
-  const birthZodiac = toTaiwanTraditional(lunar.getYearShengXiao());
-  const currentZodiac = toTaiwanTraditional(currentLunar.getYearShengXiao());
+  const birthZodiac = toTaiwanTraditional(lunar.getYearShengXiaoByLiChun());
+  const currentZodiac = toTaiwanTraditional(currentLunar.getYearShengXiaoByLiChun());
   const birthZodiacIndex = zodiacList.indexOf(birthZodiac);
   const currentZodiacIndex = zodiacList.indexOf(currentZodiac);
 

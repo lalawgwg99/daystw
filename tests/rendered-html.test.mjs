@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", {
+    new Request(`http://localhost${path}`, {
       headers: { accept: "text/html" },
     }),
     {
@@ -30,14 +30,18 @@ test("server-renders the fortune calendar product page", async () => {
 
   const html = await response.text();
   assert.match(html, /<html lang="zh-Hant-TW">/i);
-  assert.match(html, /<title>吉日通｜黃曆查詢、吉日篩選與線上祈福<\/title>/i);
-  assert.match(html, /吉日、節氣、拜拜指南，一次查清楚。/);
-  assert.match(html, /吉日篩選器/);
-  assert.match(html, /線上算命/);
-  assert.match(html, /線上點燈祈福/);
-  assert.match(html, /需求對應神明資料庫範例/);
-  assert.match(html, /lunar-javascript/);
+  assert.match(html, /吉日通/);
+  assert.match(html, /推薦吉日/);
+  assert.match(html, /月曆總覽/);
+  assert.match(html, /民俗指南/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/i);
+});
+
+test("renders SEO landing page for move-in dates", async () => {
+  const response = await render("/2026/move-in");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /2026[\s\S]*搬家入宅[\s\S]*吉日/);
 });
 
 test("keeps starter preview code out of the product source", async () => {
@@ -47,9 +51,9 @@ test("keeps starter preview code out of the product source", async () => {
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
 
-  assert.match(page, /lunar-javascript/);
-  assert.match(page, /serviceModules/);
-  assert.match(layout, /吉日通｜黃曆查詢、吉日篩選與線上祈福/);
+  assert.match(page, /FinderSection/);
+  assert.match(page, /MonthCalendar/);
+  assert.match(layout, /吉日通/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview|Your site is taking shape/);
   assert.doesNotMatch(layout, /Starter Project|codex-preview|_sites-preview/);

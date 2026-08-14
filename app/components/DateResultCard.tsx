@@ -1,16 +1,54 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { CalendarPlus, ChevronDown, Heart, Share2 } from "lucide-react";
 import { useState } from "react";
+import { explainTerms } from "../data/glossary";
 import type { DateResult } from "../lib/finder";
+import { buildIcs, downloadIcs } from "../lib/ics";
+import { generateId, storage } from "../lib/storage";
+import TermTooltip from "./TermTooltip";
 
 type Props = {
   item: DateResult;
-  month: number;
+  purpose: string;
 };
 
-export default function DateResultCard({ item, month }: Props) {
+export default function DateResultCard({ item, purpose }: Props) {
   const [open, setOpen] = useState(false);
+  const [saved, setSaved] = useState(() => storage.isDateSaved(item.iso, purpose));
+  const yiExplained = explainTerms(item.matchedYi.length > 0 ? item.matchedYi : item.yi.slice(0, 4));
+
+  function handleSave() {
+    storage.saveDate({
+      id: generateId(),
+      iso: item.iso,
+      purpose,
+      summary: item.summary,
+      savedAt: new Date().toISOString(),
+    });
+    setSaved(true);
+  }
+
+  async function handleShare() {
+    const text = `${item.iso}（${item.lunarText}）\n${item.summary}\n— 吉日通`;
+    if (navigator.share) {
+      await navigator.share({ title: "吉日通｜推薦吉日", text });
+    } else {
+      await navigator.clipboard.writeText(text);
+    }
+  }
+
+  function handleIcs() {
+    const ics = buildIcs([
+      {
+        title: `吉日通｜${purpose}`,
+        date: item.iso,
+        description: `${item.summary}\n沖煞：${item.clash}`,
+        uid: `${item.iso}-${purpose}@daystw`,
+      },
+    ]);
+    downloadIcs(`jiritong-${item.iso}.ics`, ics);
+  }
 
   return (
     <article className="date-card compact">
@@ -19,32 +57,47 @@ export default function DateResultCard({ item, month }: Props) {
         <strong>{item.isWeekend ? "週末" : "平日"}</strong>
       </div>
       <h2>
-        {month}月{item.day}日
+        {item.month}月{item.day}日
       </h2>
       <p>{item.lunarText}</p>
 
       <p className="date-summary">{item.summary}</p>
 
       <div className="tag-row compact">
-        {item.matchedYi.length > 0 ? (
-          item.matchedYi.map((tag) => (
-            <span className="good-tag highlight-tag" key={tag}>
-              {tag}
+        {yiExplained.map(({ term, plain }) => (
+          <TermTooltip key={term} plain={plain} term={term}>
+            <span className={`good-tag ${item.matchedYi.includes(term) ? "highlight-tag" : ""}`}>
+              {term}
             </span>
-          ))
-        ) : (
-          item.yi.slice(0, 4).map((tag) => (
-            <span className="good-tag" key={tag}>
-              {tag}
-            </span>
-          ))
-        )}
+          </TermTooltip>
+        ))}
       </div>
 
+      {item.auspiciousHours.length > 0 && (
+        <div className="hour-row">
+          <strong>吉時：</strong>
+          {item.auspiciousHours.map((h) => (
+            <span className="hour-chip" key={h.ganZhi}>
+              {h.label}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="date-card-meta">
-        <span>
-          沖煞：{item.clash} 煞{item.sha}
-        </span>
+        <span>沖煞：{item.clash} 煞{item.sha}</span>
+      </div>
+
+      <div className="card-actions">
+        <button className="icon-action" type="button" onClick={handleShare}>
+          <Share2 size={15} /> 分享
+        </button>
+        <button className="icon-action" disabled={saved} type="button" onClick={handleSave}>
+          <Heart size={15} /> {saved ? "已收藏" : "收藏"}
+        </button>
+        <button className="icon-action" type="button" onClick={handleIcs}>
+          <CalendarPlus size={15} /> 加入行事曆
+        </button>
       </div>
 
       <button

@@ -1,11 +1,12 @@
 "use client";
 
-import { Bell, CheckCircle2, Trash2 } from "lucide-react";
+import { Bell, CalendarPlus, CheckCircle2, Trash2 } from "lucide-react";
 import { Solar } from "lunar-javascript";
 import { useCallback, useState } from "react";
 import { deities } from "../data/deities";
+import { buildIcs, downloadIcs } from "../lib/ics";
 import { formatLunarDate } from "../lib/traditional";
-import { generateId, storage, type WorshipReminder } from "../lib/storage";
+import { generateId, requestNotificationPermission, storage, type WorshipReminder } from "../lib/storage";
 
 const reminderTemplates = [
   {
@@ -129,7 +130,32 @@ export default function WorshipReminder() {
       </div>
 
       <div className="refund-note">
-        提醒僅保存在您的瀏覽器，不會發送任何外部通知，也不會收集個人資料。
+        提醒保存在瀏覽器本機。可開啟通知權限，或匯出 .ics 加入手機行事曆。
+      </div>
+
+      <div className="form-actions left">
+        <button className="btn-secondary" type="button" onClick={() => requestNotificationPermission()}>
+          允許通知提醒
+        </button>
+        {upcoming.length > 0 && (
+          <button
+            className="btn-secondary"
+            type="button"
+            onClick={() => {
+              const ics = buildIcs(
+                upcoming.map((r) => ({
+                  title: r.title,
+                  date: r.solarDate,
+                  description: `${r.deity}｜供品：${r.offering}${r.note ? `\n${r.note}` : ""}`,
+                  uid: `${r.id}@daystw`,
+                })),
+              );
+              downloadIcs("jiritong-reminders.ics", ics);
+            }}
+          >
+            <CalendarPlus size={16} /> 匯出全部提醒
+          </button>
+        )}
       </div>
 
       {dueToday.length > 0 && (
